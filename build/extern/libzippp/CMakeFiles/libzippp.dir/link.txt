@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,liblibzippp.so -o liblibzippp.so CMakeFiles/libzippp.dir/src/libzippp.cpp.o /usr/lib64/libzip.so /usr/lib64/libz.so /usr/lib64/libbz2.so 

@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/xmltest.dir/xmltest.cpp.o  -o xmltest -Wl,-rpath,/home/duckonomy/Development/LoTide/lotide/build/extern/tinyxml2 libtinyxml2.so.7.1.0 
