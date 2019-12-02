@@ -1,0 +1,2 @@
+16
+{"last_modification_time":1572485081,"language":1,"import_file":"/home/duckonomy/Development/Git/cquery/third_party/msgpack-c/test/multi_file2.cpp","args_hash":8583860895283344595,"includes":[],"dependencies":[],"skipped_by_preprocessor":[],"types":[],"funcs":[{"id":0,"usr":7033269674615638282,"detailed_name":"int main()","short_name_offset":4,"short_name_size":4,"kind":12,"storage":1,"hover":"","comments":"","declarations":[],"spell":"3:5-3:9|-1|1|2","extent":"3:1-3:14|-1|1|0","bases":[],"derived":[],"vars":[],"uses":[],"callees":[]}],"vars":[]}

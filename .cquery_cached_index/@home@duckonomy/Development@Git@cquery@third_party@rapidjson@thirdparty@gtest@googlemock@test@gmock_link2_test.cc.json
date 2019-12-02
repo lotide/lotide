@@ -1,0 +1,2 @@
+16
+{"last_modification_time":1572485085,"language":0,"import_file":"/home/duckonomy/Development/Git/cquery/third_party/rapidjson/thirdparty/gtest/googlemock/test/gmock_link2_test.cc","args_hash":8583860895283344595,"includes":[],"dependencies":[],"skipped_by_preprocessor":[],"types":[],"funcs":[],"vars":[{"id":0,"usr":6505049160120156149,"detailed_name":"LinkTest","short_name_offset":0,"short_name_size":8,"hover":"#define LinkTest LinkTest2","comments":"","declarations":[],"spell":"38:9-38:17|-1|1|2","extent":"38:9-38:27|-1|1|0","uses":[],"kind":255,"storage":0}]}
