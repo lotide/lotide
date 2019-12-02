@@ -1,2 +1,0 @@
-16
-{"last_modification_time":1572485069,"language":0,"import_file":"/home/duckonomy/Development/Git/cquery/index_tests/preprocessor/include_guard.cc","args_hash":8583860895283344595,"includes":[],"dependencies":[],"skipped_by_preprocessor":[],"types":[],"funcs":[],"vars":[{"id":0,"usr":13076155634261037336,"detailed_name":"FOO","short_name_offset":0,"short_name_size":3,"hover":"#define FOO","comments":"","declarations":[],"spell":"2:9-2:12|-1|1|2","extent":"2:9-2:12|-1|1|0","uses":[],"kind":255,"storage":0}]}

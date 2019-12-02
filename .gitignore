@@ -3,3 +3,7 @@ _site
 Gemfile.lock
 *.gem
 build/*
+.cquery_cached_index
+.idea
+.github
+.rubocop
