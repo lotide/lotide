@@ -1,5 +1,18 @@
 #include "LoTide.hpp"
 
+/*
+Groups are settings for how the song is played
+They are discrete
+They contain all instruments and information
+on what tracks those instruments play
+
+------
+
+Chains are an implementation which allow for 
+pathing through the graph in defined ways
+
+*/
+
 namespace lotide {
 
 // LoTide::LoTide(std::string filePath) {
@@ -83,6 +96,10 @@ void LoTide::play() {
     char input;
     std::cout << "Press <enter> to quit:" << std::flush;
     std::cin.get(input);
+}
+
+std::unordered_map<tsal::Synth, std::queue<Note>> getUpcoming(int time) {
+    
 }
 
 // LoTide::pause(Track t) {

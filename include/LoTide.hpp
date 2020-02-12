@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 #ifndef TSF_IMPLEMENTATION
 #define TSF_IMPLEMENTATION
@@ -24,6 +25,7 @@ public:
     // void pause(Track);
     // void stop(Track);
     // void addC4(Track);
+    std::unordered_map<tsal::Synth, std::queue<Note>> getUpcoming(int time);
 
 
 private:
