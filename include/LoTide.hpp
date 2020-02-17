@@ -11,6 +11,7 @@
 #include "tsal.hpp"
 #include "tinyxml2.h"
 #include "libzippp.h"
+#include "Note.hpp"
 
 namespace lotide {
 
