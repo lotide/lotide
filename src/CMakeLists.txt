@@ -1,6 +1,6 @@
 set(SOURCES
   LoTide.cpp
-  LoTideCli.cpp
+  # LoTideCli.cpp
   # LoTideServer.cpp
   main.cpp
   )
@@ -29,12 +29,12 @@ target_include_directories(lotide
 # TODO: Try without ssl/bz2/z/zip
 target_link_libraries(lotide
   tsal::tsal
-  libzippp
-  tinyxml2
-  z
-  zip
-  ssl
-  bz2
+  # libzippp
+  # tinyxml2
+  # z
+  # zip
+  # ssl
+  # bz2
   # gRPC::grpc++_reflection
   # protobuf::libprotobuf
   )
