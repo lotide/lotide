@@ -9,8 +9,6 @@
 #ifndef TSF_IMPLEMENTATION
 #define TSF_IMPLEMENTATION
 #include "tsal.hpp"
-#include "tinyxml2.h"
-#include "libzippp.h"
 #include "Note.hpp"
 
 namespace lotide {
@@ -20,8 +18,6 @@ public:
     // LoTide(std::string);
     LoTide();
     // ~LoTide();
-    int load(std::string);
-    int save(std::string);
     void play();
     // void pause(Track);
     // void stop(Track);

@@ -2,9 +2,3 @@
 	path = extern/TSAL
 	url = https://github.com/duckonomy/TSAL.git
 	branch = cmake
-[submodule "extern/libzippp"]
-	path = extern/libzippp
-	url = https://github.com/ctabin/libzippp.git
-[submodule "extern/tinyxml2"]
-	path = extern/tinyxml2
-	url = https://github.com/leethomason/tinyxml2.git
