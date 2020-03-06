@@ -1,5 +1,7 @@
 set(SOURCES
   LoTide.cpp
+  Sequencer.cpp
+  Note.cpp
   main.cpp
   )
 

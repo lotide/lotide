@@ -1,4 +1,5 @@
 #include "LoTide.hpp"
+#include "Sequencer.hpp"
 
 /*
 Groups are settings for how the song is played
@@ -15,49 +16,36 @@ pathing through the graph in defined ways
 
 namespace lotide {
 
-// LoTide::LoTide(std::string filePath) {
-//     load(filePath);
-// }
+    LoTide::LoTide() {
+        sequencer = &Sequencer(*this);
+    }
 
-LoTide::LoTide() {
-    // synth = new tsal::PolySynth(&mixer);
-    // tsal::Mixer mixer;
+    /*LoTide::~LoTide() {
+    }*/
+
+    void LoTide::play() {
+        tsal::PolySynth synth(&songMixer);
+        songMixer.add(synth);
+        synth.play(tsal::C4);
+        char input;
+        std::cout << "Press <enter> to quit:" << std::flush;
+        std::cin.get(input);
+    }
+
+    std::unordered_map<unsigned, std::vector<Note>> LoTide::getUpcoming(unsigned time) {
+        std::unordered_map<unsigned, std::vector<Note>> notes;
+        return notes;
+    }
+
+    unsigned LoTide::getBPM() {
+        return bpm;
+    }
+
+    unsigned LoTide::getStepSize() {
+        return bpm / 4;
+    }
+
+    std::vector<tsal::PolySynth>& LoTide::getAllSynths() {
+        return synths;
+    }
 }
-
-// LoTide::~LoTide() {
-    // delete &midiFiles;
-// }
-
-void LoTide::play() {
-    tsal::Mixer mixer;
-    tsal::PolySynth synth(&mixer);
-    mixer.add(synth);
-    synth.play(tsal::C4);
-    char input;
-    std::cout << "Press <enter> to quit:" << std::flush;
-    std::cin.get(input);
-}
-
-std::unordered_map<tsal::Synth, std::queue<Note>> getUpcoming(int time) {
-    
-}
-
-// LoTide::pause(Track t) {
-
-// }
-
-// LoTide::stop (Track t) {
-//     synth.stop(C4);
-// }
-
-// LoTide::addC4(Track t) {
-
-// }
-
-// std::string LoTide::unzipXML(std::string filePath) {
-
-
-// }
-
-
-} // end of namespace lotide

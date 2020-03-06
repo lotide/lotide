@@ -4,33 +4,33 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
-#include <queue>
+#include <vector>
 #include <chrono>
 #include <thread>
 
 #include "tsal.hpp"
+#include "LoTide.hpp"
 
 namespace lotide {
 
-class Sequencer {
+    class Sequencer {
 
-public:
-    Sequencer(LoTide& parent);
-    void addUpcoming(Note note, tsal::Synth synth);
-    void clearAll();
-    void start();
-    void Sequencer::start(int time);
-    void stop();
-    void findUpcomingNotes();
-    void processNotes();
-private:
-    int currentTime;
-    LoTide loTide;
-    bool isPlaying;
-    std::unordered_map<tsal::Synth, std::queue<Note>> playing;
-
-    void tick();
-};
+    public:
+        Sequencer(LoTide& parent);
+        void addUpcoming(Note note, unsigned synthId);
+        void clearAll();
+        void start();
+        void start(unsigned time);
+        void stop();
+        void findUpcomingNotes();
+        void processNotes();
+        void tick();
+    private:
+        unsigned currentTime;
+        LoTide& loTide;
+        bool isPlaying;
+        std::unordered_map<unsigned, std::vector<Note>> playing;
+    };
 
 }
 
