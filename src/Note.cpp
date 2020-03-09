@@ -9,19 +9,26 @@ Note::Note(double n, double v, int s, int d) {
 	duration = d;
 }
 
-double Note::getNote() {
+Note::Note(const Note& otherNote) {
+	note = otherNote.getNote();
+	velocity = otherNote.getVelocity();
+	startTime = otherNote.getStartTime();
+	duration = otherNote.getStartTime();
+}
+
+double Note::getNote() const {
 	return note;
 }
 
-double Note::getVelocity(){ 
+double Note::getVelocity() const { 
 	return velocity;
 }
 
-int Note::getStartTime(){ 
+int Note::getStartTime() const { 
 	return startTime;
 }
 
-int Note::getDuration(){ 
+int Note::getDuration() const { 
 	return duration;
 }
 

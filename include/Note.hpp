@@ -7,10 +7,11 @@ class Note {
 
 public:
     Note(double n, double v, int s, int d);
-    double getNote();
-    double getVelocity();
-    int getStartTime();
-    int getDuration();
+    Note(const Note& otherNote);
+    double getNote() const;
+    double getVelocity() const;
+    int getStartTime() const;
+    int getDuration() const;
     void setNote(double n);
     void setVelocity(double v);
     void setStartTime(int t);

@@ -10,6 +10,7 @@
 #define TSF_IMPLEMENTATION
 #include "tsal.hpp"
 #include "Note.hpp"
+#include "Song.hpp"
 
 
 

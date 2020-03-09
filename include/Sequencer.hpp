@@ -26,6 +26,8 @@ namespace lotide {
         void processNotes();
         void tick();
     private:
+        unsigned ppq = 192;
+
         unsigned currentTime;
         LoTide& loTide;
         bool isPlaying;

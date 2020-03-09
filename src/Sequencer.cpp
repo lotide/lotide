@@ -86,12 +86,19 @@ namespace lotide {
 	}
 
 	void Sequencer::tick() {
+		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+
 		currentTime++;
 
-		findUpcomingNotes();
-		processNotes();
+		if (currentTime % loTide.getStepSize() == 0) {
+			findUpcomingNotes();
+			processNotes();
+		}
 
-		//std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+		std::chrono::system_clock::time_point after = std::chrono::system_clock::now();
+
+		std::chrono::milliseconds time = std::chrono::milliseconds(60000 / (loTide.getBPM() * ppq)) - std::chrono::duration_cast<std::chrono::milliseconds>(after - now);
+		std::this_thread::sleep_for(time);
 
 		if (isPlaying) {
 			tick();
