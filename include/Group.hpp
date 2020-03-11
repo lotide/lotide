@@ -11,13 +11,17 @@
 namespace lotide {
 
     class Group {
-        Group(std::string name);
+        
     public:
-
+        Group(std::string name, std::vector<unsigned> songSynths);
+        void addPhrase(unsigned synthId, unsigned phraseId);
+        unsigned getLength();
     private:
-        std::string name;
-        std::unordered_map<tsal::PolySynth, std::vector<unsigned>> mSynthPhrases;
+        std::string mName;
+        std::unordered_map<unsigned, std::vector<unsigned>> mSynthPhrases;
         unsigned mLength;
+
+        void calculateLength();
     };
 
 }

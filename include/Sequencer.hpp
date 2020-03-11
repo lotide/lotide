@@ -9,14 +9,14 @@
 #include <thread>
 
 #include "tsal.hpp"
-#include "LoTide.hpp"
+#include "Song.hpp"
 
 namespace lotide {
 
     class Sequencer {
 
     public:
-        Sequencer(LoTide& parent);
+        Sequencer(unsigned bpm);
         void addUpcoming(Note note, unsigned synthId);
         void clearAll();
         void start();
@@ -26,10 +26,11 @@ namespace lotide {
         void processNotes();
         void tick();
     private:
+        unsigned mBpm;
         unsigned ppq = 192;
 
         unsigned currentTime;
-        LoTide& loTide;
+        Song* activeSong;
         bool isPlaying;
         std::unordered_map<unsigned, std::vector<Note>> playing;
     };

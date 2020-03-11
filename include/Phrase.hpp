@@ -10,12 +10,13 @@
 namespace lotide {
 
     class Phrase {
+       
+    public:
         Phrase(std::string name, tsal::PolySynth& synth, unsigned id);
         Phrase(std::string newName, Phrase& otherPhrase, unsigned id, tsal::PolySynth& newSynth);
-    public:
         const std::vector<Note> getNotes() { return mNotes; }
     private:
-        std::string name;
+        std::string mName;
         unsigned mId;
         tsal::PolySynth& mSynth;
         std::vector<Note> mNotes;

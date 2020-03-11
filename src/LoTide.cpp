@@ -17,35 +17,19 @@ pathing through the graph in defined ways
 namespace lotide {
 
     LoTide::LoTide() {
-        sequencer = &Sequencer(*this);
     }
 
     /*LoTide::~LoTide() {
     }*/
 
     void LoTide::play() {
+        Song s("TempSong", songMixer);
+
         tsal::PolySynth synth(&songMixer);
         songMixer.add(synth);
         synth.play(tsal::C4);
         char input;
         std::cout << "Press <enter> to quit:" << std::flush;
         std::cin.get(input);
-    }
-
-    std::unordered_map<unsigned, std::vector<Note>> LoTide::getUpcoming(unsigned time) {
-        std::unordered_map<unsigned, std::vector<Note>> notes;
-        return notes;
-    }
-
-    unsigned LoTide::getBPM() {
-        return bpm;
-    }
-
-    unsigned LoTide::getStepSize() {
-        return bpm / 4;
-    }
-
-    std::vector<tsal::PolySynth>& LoTide::getAllSynths() {
-        return synths;
     }
 }

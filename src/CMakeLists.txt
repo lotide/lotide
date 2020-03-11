@@ -2,6 +2,9 @@ set(SOURCES
   LoTide.cpp
   Sequencer.cpp
   Note.cpp
+  Song.cpp
+  Phrase.cpp
+  Group.cpp
   main.cpp
   )
 

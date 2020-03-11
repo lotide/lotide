@@ -3,7 +3,7 @@
 
 namespace lotide {
 
-	Sequencer::Sequencer(LoTide& parent): loTide(parent) {
+	Sequencer::Sequencer(unsigned bpm) : mBpm(bpm) {
 		isPlaying = false;
 		currentTime = -1;
 	}
@@ -42,7 +42,7 @@ namespace lotide {
 		}*/
 		
 	
-		std::unordered_map<unsigned, std::vector<Note>> newUpcoming = loTide.getUpcoming(currentTime);
+		std::unordered_map<unsigned, std::vector<Note>> newUpcoming = activeSong->getUpcoming(currentTime);
 		for (std::pair<unsigned, std::vector<Note>> newNotes : newUpcoming) {
 			unsigned synthId = newNotes.first;
 
@@ -55,22 +55,22 @@ namespace lotide {
 	void Sequencer::processNotes() {
 		// check if notes need to be stopped
 		for (std::pair<unsigned, std::vector<Note>> playingNotes : playing) {
-			std::vector<tsal::PolySynth>& synths = loTide.getAllSynths();
+			std::vector<tsal::PolySynth*> synths = activeSong->getSynths();
 
-			tsal::PolySynth& synth = synths[playingNotes.first];
+			tsal::PolySynth* synth = synths[playingNotes.first];
 
 			std::vector<Note> toBeRemoved;
 
 			for (Note playingNote : playingNotes.second) {
 				if (playingNote.getDuration() <= currentTime - playingNote.getStartTime()) {
-					synth.stop(playingNote.getNote());
+					synth->stop(playingNote.getNote());
 				}
 			}
 		}
 	}
 
 	void Sequencer::addUpcoming(Note note, unsigned synthId) {
-		std::vector<tsal::PolySynth>& synths = loTide.getAllSynths();
+		std::vector<tsal::PolySynth*> synths = activeSong->getSynths();
 
 		if (playing.find(synthId) == playing.end()) {
 			std::vector<Note> synthNotes;
@@ -81,8 +81,8 @@ namespace lotide {
 			playing[synthId].push_back(note);
 		}
 
-		tsal::PolySynth& synth = synths[synthId];
-		synth.play(note.getNote(), note.getVelocity());
+		tsal::PolySynth* synth = synths[synthId];
+		synth->play(note.getNote(), note.getVelocity());
 	}
 
 	void Sequencer::tick() {
@@ -90,14 +90,14 @@ namespace lotide {
 
 		currentTime++;
 
-		if (currentTime % loTide.getStepSize() == 0) {
+		if (currentTime % (mBpm / 4) == 0) {
 			findUpcomingNotes();
 			processNotes();
 		}
 
 		std::chrono::system_clock::time_point after = std::chrono::system_clock::now();
 
-		std::chrono::milliseconds time = std::chrono::milliseconds(60000 / (loTide.getBPM() * ppq)) - std::chrono::duration_cast<std::chrono::milliseconds>(after - now);
+		std::chrono::milliseconds time = std::chrono::milliseconds(60000 / (mBpm * ppq)) - std::chrono::duration_cast<std::chrono::milliseconds>(after - now);
 		std::this_thread::sleep_for(time);
 
 		if (isPlaying) {
@@ -106,15 +106,15 @@ namespace lotide {
 	}
 
 	void Sequencer::clearAll() {
-		std::vector<tsal::PolySynth>& synths = loTide.getAllSynths();
+		std::vector<tsal::PolySynth*> synths = activeSong->getSynths();
 
 		for (std::pair<unsigned, std::vector<Note>> noteList : playing) {
-			tsal::PolySynth& synth = synths[noteList.first];
+			tsal::PolySynth* synth = synths[noteList.first];
 
 			for (double note = tsal::A0; note != tsal::Gs7; note++) {
-				synth.stop(note);
+				synth->stop(note);
 			}
-			synth.stop(tsal::Gs7);
+			synth->stop(tsal::Gs7);
 		}
 
 		playing.clear();
