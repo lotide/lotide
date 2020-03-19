@@ -25,11 +25,11 @@ namespace lotide {
         void findUpcomingNotes();
         void processNotes();
         void tick();
+        void setSong(Song& s);
     private:
-        unsigned mBpm;
+        unsigned mBpm = 140;
         unsigned ppq = 192;
-
-        unsigned currentTime;
+        int currentTime;
         Song* activeSong;
         bool isPlaying;
         std::unordered_map<unsigned, std::vector<Note>> playing;

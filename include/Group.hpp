@@ -15,13 +15,10 @@ namespace lotide {
     public:
         Group(std::string name, std::vector<unsigned> songSynths);
         void addPhrase(unsigned synthId, unsigned phraseId);
-        unsigned getLength();
+        std::vector<unsigned>& getPhrases(unsigned synthId);
     private:
         std::string mName;
         std::unordered_map<unsigned, std::vector<unsigned>> mSynthPhrases;
-        unsigned mLength;
-
-        void calculateLength();
     };
 
 }

@@ -1,7 +1,8 @@
 #include <iostream>
+#include "LoTide.hpp"
 
 int main(int argc, char *argv[])
 {
-
-    return 0;
+	lotide::LoTide lt;
+	lt.play();
 }

@@ -6,6 +6,8 @@ namespace lotide {
 	Sequencer::Sequencer(unsigned bpm) : mBpm(bpm) {
 		isPlaying = false;
 		currentTime = -1;
+
+		activeSong = NULL;
 	}
 
 	// Corresponds to when the songs should start to play
@@ -16,6 +18,7 @@ namespace lotide {
 		isPlaying = true;
 
 		std::thread thread_obj(&Sequencer::tick, this);
+		thread_obj.detach();
 	}
 
 	void Sequencer::start(unsigned time) {
@@ -30,18 +33,7 @@ namespace lotide {
 	}
 
 	// Look in LoTide to find all notes which need to be added
-	void Sequencer::findUpcomingNotes() {
-		/*std::vector<tsal::PolySynth>& synths = loTide.getAllSynths();
-		
-		for (int i = 0; i < synths.size(); i++) {
-			std::vector<Note> notes = loTide.getUpcoming(i, currentTime);
-
-			for (Note newNote : notes) {
-				addUpcoming(newNote, i);
-			}
-		}*/
-		
-	
+	void Sequencer::findUpcomingNotes() {	
 		std::unordered_map<unsigned, std::vector<Note>> newUpcoming = activeSong->getUpcoming(currentTime);
 		for (std::pair<unsigned, std::vector<Note>> newNotes : newUpcoming) {
 			unsigned synthId = newNotes.first;
@@ -120,4 +112,7 @@ namespace lotide {
 		playing.clear();
 	}
 
+	void Sequencer::setSong(Song& s) {
+		activeSong = &s;
+	}
 }

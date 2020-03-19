@@ -2,18 +2,14 @@
 
 namespace lotide {
 
-Note::Note(double n, double v, int s, int d) {
-	note = n;
-	velocity = v;
-	startTime = s;
-	duration = d;
+Note::Note(double n, double v, int s, int d) : note(n), velocity(v), startTime(s), duration(d) {
 }
 
 Note::Note(const Note& otherNote) {
 	note = otherNote.getNote();
 	velocity = otherNote.getVelocity();
 	startTime = otherNote.getStartTime();
-	duration = otherNote.getStartTime();
+	duration = otherNote.getDuration();
 }
 
 double Note::getNote() const {

@@ -11,12 +11,7 @@ namespace lotide {
 		mSynthPhrases[synthId].push_back(phraseId);
 	}
 
-	void Group::calculateLength() {
-
-	}
-
-	unsigned Group::getLength() {
-		calculateLength();
-		return mLength;
+	std::vector<unsigned>& Group::getPhrases(unsigned synthId) {
+		return mSynthPhrases[synthId];
 	}
 }

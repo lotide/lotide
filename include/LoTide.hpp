@@ -29,7 +29,7 @@ namespace lotide {
         std::vector<tsal::PolySynth> synths;
         std::vector<std::string> midiFiles;
         tsal::Mixer songMixer;
-        Sequencer* sequencer;
+        Sequencer sequencer;
         std::vector<Song> songs;
     };
 

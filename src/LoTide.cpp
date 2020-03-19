@@ -16,7 +16,7 @@ pathing through the graph in defined ways
 
 namespace lotide {
 
-    LoTide::LoTide() {
+    LoTide::LoTide() : sequencer(100) {
     }
 
     /*LoTide::~LoTide() {
@@ -25,11 +25,22 @@ namespace lotide {
     void LoTide::play() {
         Song s("TempSong", songMixer);
 
-        tsal::PolySynth synth(&songMixer);
+        //songs.push_back(s);
+
+        sequencer.setSong(s);
+        sequencer.start();
+
+        std::cout << "Length of Song: " << s.getLength() << std::endl;
+
+        char input;
+        std::cout << "Press <enter> to quit:" << std::flush;
+        std::cin.get(input);
+
+        /*tsal::PolySynth synth(&songMixer);
         songMixer.add(synth);
         synth.play(tsal::C4);
         char input;
         std::cout << "Press <enter> to quit:" << std::flush;
-        std::cin.get(input);
+        std::cin.get(input);*/
     }
 }
