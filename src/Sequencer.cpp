@@ -34,6 +34,10 @@ namespace lotide {
 
 	// Look in LoTide to find all notes which need to be added
 	void Sequencer::findUpcomingNotes() {	
+		if (activeSong == NULL) {
+			return;
+		}
+
 		std::unordered_map<unsigned, std::vector<Note>> newUpcoming = activeSong->getUpcoming(currentTime);
 		for (std::pair<unsigned, std::vector<Note>> newNotes : newUpcoming) {
 			unsigned synthId = newNotes.first;
@@ -47,9 +51,9 @@ namespace lotide {
 	void Sequencer::processNotes() {
 		// check if notes need to be stopped
 		for (std::pair<unsigned, std::vector<Note>> playingNotes : playing) {
-			std::vector<tsal::PolySynth*> synths = activeSong->getSynths();
+			std::vector<LTSynth*> synths = activeSong->getSynths();
 
-			tsal::PolySynth* synth = synths[playingNotes.first];
+			LTSynth* synth = synths[playingNotes.first];
 
 			std::vector<Note> toBeRemoved;
 
@@ -62,7 +66,7 @@ namespace lotide {
 	}
 
 	void Sequencer::addUpcoming(Note note, unsigned synthId) {
-		std::vector<tsal::PolySynth*> synths = activeSong->getSynths();
+		std::vector<LTSynth*> synths = activeSong->getSynths();
 
 		if (playing.find(synthId) == playing.end()) {
 			std::vector<Note> synthNotes;
@@ -73,7 +77,7 @@ namespace lotide {
 			playing[synthId].push_back(note);
 		}
 
-		tsal::PolySynth* synth = synths[synthId];
+		LTSynth* synth = synths[synthId];
 		synth->play(note.getNote(), note.getVelocity());
 	}
 
@@ -98,10 +102,10 @@ namespace lotide {
 	}
 
 	void Sequencer::clearAll() {
-		std::vector<tsal::PolySynth*> synths = activeSong->getSynths();
+		std::vector<LTSynth*> synths = activeSong->getSynths();
 
 		for (std::pair<unsigned, std::vector<Note>> noteList : playing) {
-			tsal::PolySynth* synth = synths[noteList.first];
+			LTSynth* synth = synths[noteList.first];
 
 			for (double note = tsal::A0; note != tsal::Gs7; note++) {
 				synth->stop(note);

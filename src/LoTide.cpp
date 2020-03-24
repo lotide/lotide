@@ -22,15 +22,32 @@ namespace lotide {
     /*LoTide::~LoTide() {
     }*/
 
+    Song& LoTide::addSong(std::string name) {
+        Song s(name, songMixer);
+        songs.push_back(std::move(s));
+
+        return songs[songs.size() - 1];
+    }
+
+    void LoTide::setSong(std::string name) {
+        for (Song& s : songs) {
+            if (s.getName() == name) {
+                sequencer.setSong(s);
+            }
+        }
+    }
+
+    void LoTide::setGroup(std::string name) {
+        Song* activeSong = &sequencer.getSong();
+
+        if (activeSong) {
+            activeSong->setGroup(name);
+        }
+    }
+
     void LoTide::play() {
-        Song s("TempSong", songMixer);
-
-        //songs.push_back(s);
-
-        sequencer.setSong(s);
-        sequencer.start();
-
-        std::cout << "Length of Song: " << s.getLength() << std::endl;
+        
+        sequencer.start();        
 
         char input;
         std::cout << "Press <enter> to quit:" << std::flush;

@@ -6,6 +6,7 @@ set(SOURCES
   Phrase.cpp
   Group.cpp
   main.cpp
+  LTSynth.cpp
   )
 
 # set(PROTOS

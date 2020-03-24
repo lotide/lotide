@@ -14,4 +14,8 @@ namespace lotide {
 	std::vector<unsigned>& Group::getPhrases(unsigned synthId) {
 		return mSynthPhrases[synthId];
 	}
+
+	void Group::addSynth(unsigned synthId) {
+		mSynthPhrases[synthId] = std::vector<unsigned>();
+	}
 }

@@ -26,6 +26,7 @@ namespace lotide {
         void processNotes();
         void tick();
         void setSong(Song& s);
+        Song& getSong() { return *activeSong; }
     private:
         unsigned mBpm = 140;
         unsigned ppq = 192;

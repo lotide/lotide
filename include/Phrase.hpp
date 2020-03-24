@@ -17,6 +17,7 @@ namespace lotide {
         const std::vector<Note>& getNotes() { return mNotes; }
         unsigned getLength() { return mLength; }
         void addNote(Note&& n);
+        unsigned getId() { return mId; }
     private:
         std::string mName;
         unsigned mLength;

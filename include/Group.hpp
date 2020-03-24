@@ -16,6 +16,8 @@ namespace lotide {
         Group(std::string name, std::vector<unsigned> songSynths);
         void addPhrase(unsigned synthId, unsigned phraseId);
         std::vector<unsigned>& getPhrases(unsigned synthId);
+        void addSynth(unsigned synthId);
+        std::string getName() { return mName; }
     private:
         std::string mName;
         std::unordered_map<unsigned, std::vector<unsigned>> mSynthPhrases;

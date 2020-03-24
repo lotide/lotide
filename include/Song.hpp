@@ -9,6 +9,7 @@
 
 #include "Phrase.hpp"
 #include "Group.hpp"
+#include "LTSynth.hpp"
 
 namespace lotide {
 
@@ -16,21 +17,26 @@ namespace lotide {
         
     public:
         Song(std::string name, tsal::Mixer& mixer);
-        void addSynth(tsal::PolySynth&& synth);
+        Song(Song&& other) noexcept;
+        LTSynth& addSynth();
         std::vector<unsigned> getSynthIds();
         std::unordered_map<unsigned, std::vector<Note>> getUpcoming(unsigned time);
-        std::vector<tsal::PolySynth*> getSynths();
+        std::vector<LTSynth*> getSynths();
         void setGroup(Group& g);
         unsigned getLength() { return mCurrentLength; }
-        void makeNewGroup(std::string groupName);
+        Group& makeNewGroup(std::string groupName);
+        std::string getName() { return mName; }
+        void setGroup(std::string name);
+        Phrase& addPhrase(std::string name, unsigned synthId);
     private:
         std::string mName;
         tsal::Mixer& mMixer;
-        std::unordered_map<unsigned, tsal::PolySynth> mSynths;
+        std::vector<LTSynth> mSynths;
         std::unordered_map<unsigned, std::vector<Phrase>> mSynthPhrases;
         std::vector<Group> groups;
         Group* activeGroup;
         unsigned mCurrentLength;
+        unsigned mNextUniqueId = 0;
     };
 
 }
