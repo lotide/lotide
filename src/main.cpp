@@ -15,11 +15,12 @@ int main(int argc, char *argv[])
 	Song& song = lt.addSong("Song1");
 
 	LTSynth& synth = song.addSynth();
+	synth.play(tsal::A5, 50);
 
 	Group& g = song.makeNewGroup("normal");
 
 	Phrase& p = song.addPhrase("tempPhrase", synth.getId());
-	p.addNote(Note(tsal::A5, 50, 1, 5));
+	p.addNote(Note(tsal::A5, 100, 0, 90));
 
 	g.addPhrase(synth.getId(), p.getId());
 
@@ -27,4 +28,10 @@ int main(int argc, char *argv[])
 	lt.setGroup("normal");
 
 	lt.play();
+
+	char input;
+	std::cout << "Press <enter> to quit:" << std::endl;
+	std::cin.get(input);
+
+	lt.stop();
 }

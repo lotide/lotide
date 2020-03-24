@@ -28,8 +28,8 @@ namespace lotide {
         void setSong(Song& s);
         Song& getSong() { return *activeSong; }
     private:
-        unsigned mBpm = 140;
-        unsigned ppq = 192;
+        int mBpm = 90;
+        int ppq = 48;       //feel free to change
         int currentTime;
         Song* activeSong;
         bool isPlaying;

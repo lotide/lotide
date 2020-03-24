@@ -17,21 +17,17 @@ namespace lotide {
 
     class LoTide {
     public:
-        
         LoTide();
         //~LoTide();
         int load(std::string);
         int save(std::string);
         void play();
-
+        void stop();
         Song& addSong(std::string name);
         void setSong(std::string name);
         void setGroup(std::string name);
     private:
-        std::string projectName;
-        //std::vector<tsal::PolySynth> synths;
-        //std::vector<std::string> midiFiles;
-        tsal::Mixer songMixer;
+        tsal::Mixer masterMixer;
         Sequencer sequencer;
         std::vector<Song> songs;
     };

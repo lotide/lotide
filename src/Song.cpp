@@ -1,20 +1,22 @@
 #include "Song.hpp"
 
 namespace lotide {
-	Song::Song(std::string name, tsal::Mixer& mixer) : mName(name), mMixer(mixer) {
+	Song::Song(std::string name, tsal::Mixer& m) : mName(name) {
+		mMixer = &m;
 		activeGroup = NULL;
 		mCurrentLength = 0;
 	}
 
 	Song::Song(Song&& other) noexcept :
 		mName(std::move(other.mName)),
-		mMixer(other.mMixer),
 		mSynths(std::move(other.mSynths)),
 		mSynthPhrases(std::move(other.mSynthPhrases)),
 		groups(std::move(other.groups)),
 		activeGroup(std::move(other.activeGroup)),
 		mCurrentLength(other.mCurrentLength),
-		mNextUniqueId(other.mNextUniqueId) {}
+		mNextUniqueId(other.mNextUniqueId) {
+		mMixer = other.mMixer;
+	}
 
 	Group& Song::makeNewGroup(std::string groupName) {
 		Group g(groupName, getSynthIds());
@@ -35,6 +37,8 @@ namespace lotide {
 		}
 
 		unsigned normTime = time % mCurrentLength;
+
+		std::cout << time << " " << normTime << std::endl;
 
 		for (auto& kv : mSynths) {
 			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
@@ -81,7 +85,8 @@ namespace lotide {
 	}
 	
 	LTSynth& Song::addSynth() {
-		LTSynth newSynth(mNextUniqueId, mMixer);
+		LTSynth newSynth(mNextUniqueId, *mMixer);
+
 		mSynths.push_back(std::move(newSynth));
 		mNextUniqueId++;
 

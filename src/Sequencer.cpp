@@ -13,8 +13,6 @@ namespace lotide {
 	// Corresponds to when the songs should start to play
 	// Timing events will now be relative to when this is called
 	void Sequencer::start() {
-		findUpcomingNotes();
-
 		isPlaying = true;
 
 		std::thread thread_obj(&Sequencer::tick, this);
@@ -86,14 +84,15 @@ namespace lotide {
 
 		currentTime++;
 
-		if (currentTime % (mBpm / 4) == 0) {
-			findUpcomingNotes();
-			processNotes();
-		}
+		findUpcomingNotes();
+		processNotes();
 
 		std::chrono::system_clock::time_point after = std::chrono::system_clock::now();
 
-		std::chrono::milliseconds time = std::chrono::milliseconds(60000 / (mBpm * ppq)) - std::chrono::duration_cast<std::chrono::milliseconds>(after - now);
+		std::chrono::milliseconds time = 
+			std::chrono::milliseconds(60000 / (mBpm * ppq))
+			- std::chrono::duration_cast<std::chrono::milliseconds>(after - now);
+
 		std::this_thread::sleep_for(time);
 
 		if (isPlaying) {

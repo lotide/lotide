@@ -16,7 +16,7 @@ namespace lotide {
     class Song {
         
     public:
-        Song(std::string name, tsal::Mixer& mixer);
+        Song(std::string name, tsal::Mixer& m);
         Song(Song&& other) noexcept;
         LTSynth& addSynth();
         std::vector<unsigned> getSynthIds();
@@ -30,7 +30,7 @@ namespace lotide {
         Phrase& addPhrase(std::string name, unsigned synthId);
     private:
         std::string mName;
-        tsal::Mixer& mMixer;
+        tsal::Mixer* mMixer;
         std::vector<LTSynth> mSynths;
         std::unordered_map<unsigned, std::vector<Phrase>> mSynthPhrases;
         std::vector<Group> groups;
