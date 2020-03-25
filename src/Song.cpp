@@ -38,8 +38,6 @@ namespace lotide {
 
 		unsigned normTime = time % mCurrentLength;
 
-		std::cout << time << " " << normTime << std::endl;
-
 		for (auto& kv : mSynths) {
 			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
 			Phrase* desired = &mSynthPhrases[kv.getId()][0];
@@ -86,6 +84,7 @@ namespace lotide {
 	
 	LTSynth& Song::addSynth() {
 		LTSynth newSynth(mNextUniqueId, *mMixer);
+		int count = mMixer->getMaster().getInstrumentCount();
 
 		mSynths.push_back(std::move(newSynth));
 		mNextUniqueId++;
@@ -94,6 +93,7 @@ namespace lotide {
 			g.addSynth(newSynth.getId());
 		}
 
+		mMixer->add(mSynths[newSynth.getId()].getSynth());
 		return mSynths[newSynth.getId()];
 	}
 

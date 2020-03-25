@@ -26,8 +26,6 @@ namespace lotide {
         Song& addSong(std::string name);
         void setSong(std::string name);
         void setGroup(std::string name);
-
-        tsal::Mixer& getMixer() { return masterMixer; }
     private:
         tsal::Mixer masterMixer;
         Sequencer sequencer;

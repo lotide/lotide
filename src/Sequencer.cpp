@@ -82,7 +82,13 @@ namespace lotide {
 	void Sequencer::tick() {
 		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
-		currentTime++;
+		//currentTime++;
+		unsigned currentLength = activeSong->getLength();
+		currentTime = (currentTime + 1) % currentLength;
+
+		if (currentTime == 0) {
+			clearAll();
+		}
 
 		findUpcomingNotes();
 		processNotes();

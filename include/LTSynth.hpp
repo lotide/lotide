@@ -14,7 +14,6 @@ namespace lotide {
 		void stop(double note) { mSynth.stop(note); }
 
 		tsal::PolySynth& getSynth() { return mSynth; }
-
 	private:
 		tsal::PolySynth mSynth;
 		unsigned mId;
