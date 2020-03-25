@@ -28,6 +28,8 @@ namespace lotide {
         std::string getName() { return mName; }
         void setGroup(std::string name);
         Phrase& addPhrase(std::string name, unsigned synthId);
+
+        tsal::Mixer& getMixer() { return *mMixer; }
     private:
         std::string mName;
         tsal::Mixer* mMixer;

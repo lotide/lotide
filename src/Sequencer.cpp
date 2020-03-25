@@ -101,6 +101,10 @@ namespace lotide {
 	}
 
 	void Sequencer::clearAll() {
+		if (!activeSong) {
+			return;
+		}
+
 		std::vector<LTSynth*> synths = activeSong->getSynths();
 
 		for (std::pair<unsigned, std::vector<Note>> noteList : playing) {
