@@ -70,7 +70,7 @@ namespace lotide {
 			std::vector<Note> synthNotes;
 			synthNotes.push_back(note);
 
-			playing.insert(std::pair<unsigned, std::vector<Note>>(synthId, synthNotes));
+			playing.insert(std::pair<unsigned, std::vector<Note>>(synthId, std::move(synthNotes)));
 		} else {
 			playing[synthId].push_back(note);
 		}
@@ -82,7 +82,6 @@ namespace lotide {
 	void Sequencer::tick() {
 		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
-		//currentTime++;
 		unsigned currentLength = activeSong->getLength();
 		currentTime = (currentTime + 1) % currentLength;
 

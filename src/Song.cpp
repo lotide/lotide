@@ -40,12 +40,17 @@ namespace lotide {
 
 		for (auto& kv : mSynths) {
 			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
-			Phrase* desired = &mSynthPhrases[kv.getId()][0];
+
+			int desId = 0;
+			Phrase* desired = &mSynthPhrases[kv.getId()][phrases[desId]];
+			//Phrase* desired = &mSynthPhrases[kv.getId()][0];
 
 			unsigned previousLength = 0;
-
 			while (desired->getLength() + previousLength <= normTime) {
-				desired++;
+				desId++;
+
+				desired = &mSynthPhrases[kv.getId()][phrases[desId]];
+				//desired = &mSynthPhrases[kv.getId()][0];
 				previousLength += desired->getLength();
 			}
 

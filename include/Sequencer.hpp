@@ -16,6 +16,8 @@ namespace lotide {
     class Sequencer {
 
     public:
+        const static int ppq = 8;
+
         Sequencer(unsigned bpm);
         void addUpcoming(Note note, unsigned synthId);
         void clearAll();
@@ -29,7 +31,6 @@ namespace lotide {
         Song& getSong() { return *activeSong; }
     private:
         int mBpm = 90;
-        int ppq = 48;       //feel free to change
         int currentTime;
         Song* activeSong;
         bool isPlaying;
