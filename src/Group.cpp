@@ -1,6 +1,7 @@
 #include "Group.hpp"
 
 namespace lotide {
+	Group::Group() {}
 	Group::Group(std::string name, std::vector<unsigned> songSynths) : mName(name) {
 		for (unsigned id : songSynths) {
 			mSynthPhrases[id] = std::vector<unsigned>();

@@ -23,16 +23,21 @@ set(SOURCES
 
 add_executable(lotide ${SOURCES})
 
+find_package(Boost COMPONENTS serialization REQUIRED)
+
 target_include_directories(lotide
   # PUBLIC
-    # ${PROTO_SRC_DIR}
+	# ${PROTO_SRC_DIR}
   PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
+	${PROJECT_SOURCE_DIR}/include
+  PUBLIC
+  ${Boost_INCLUDE_DIRS}
 )
 
 # TODO: Try without ssl/bz2/z/zip
 target_link_libraries(lotide
   tsal::tsal
+  ${Boost_LIBRARIES}
   # gRPC::grpc++_reflection
   # protobuf::libprotobuf
   )

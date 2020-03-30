@@ -1,6 +1,8 @@
 #include "Song.hpp"
 
 namespace lotide {
+	Song::Song() {}
+
 	Song::Song(std::string name, tsal::Mixer& m) : mName(name) {
 		mMixer = &m;
 		activeGroup = NULL;
@@ -16,6 +18,30 @@ namespace lotide {
 		mCurrentLength(other.mCurrentLength),
 		mNextUniqueId(other.mNextUniqueId) {
 		mMixer = other.mMixer;
+	}
+
+	// For Serialization
+	Song::Song(Song& other, tsal::Mixer& m) {
+		mMixer = &m;
+
+		LTSynth& synth = addSynth();
+
+		mName = other.mName;
+
+		for (auto& kv: other.groups) {
+			Group& g = makeNewGroup(kv.getName());
+
+			for (auto& kk: other.mSynthPhrases) {
+				for (auto& x: kk.second) {
+					Phrase& p = addPhrase(x.getName(), synth.getId());
+					for (auto& y: x.getNotes()) {
+						p.addNote((Note(y.getNote(), y.getVelocity(),
+										y.getStartTime(), y.getDuration())));
+					}
+					g.addPhrase(synth.getId(), p.getId());
+				}
+			}
+		}
 	}
 
 	Group& Song::makeNewGroup(std::string groupName) {
@@ -81,7 +107,7 @@ namespace lotide {
 
 		return synths;
 	}
-	
+
 	LTSynth& Song::addSynth() {
 		LTSynth newSynth(mNextUniqueId, *mMixer);
 		int count = mMixer->getMaster().getInstrumentCount();

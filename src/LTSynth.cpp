@@ -1,6 +1,7 @@
 #include "LTSynth.hpp"
 
 namespace lotide {
+	LTSynth::LTSynth() {}
 	LTSynth::LTSynth(unsigned id, tsal::Mixer &mixer) : mSynth(&mixer), mId(id) {
 	}
 
