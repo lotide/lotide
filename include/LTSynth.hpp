@@ -17,6 +17,10 @@ namespace lotide {
 		void stop(double note) { mSynth.stop(note); }
 
 		tsal::PolySynth& getSynth() { return mSynth; }
+
+		void init(tsal::Mixer& m) {
+			mSynth = tsal::PolySynth(m);
+		}
 	private:
 
 		friend class boost::serialization::access;
@@ -24,7 +28,7 @@ namespace lotide {
 		void serialize(Archive & ar, const unsigned int version)
 		{
 			// ar & mSynth;
-			// ar & mId;
+			ar & mId;
 		}
 
 		tsal::PolySynth mSynth;

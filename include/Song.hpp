@@ -32,6 +32,15 @@ namespace lotide {
 		std::string getName() { return mName; }
 		void setGroup(std::string name);
 		Phrase& addPhrase(std::string name, unsigned synthId);
+
+		void init(tsal::Mixer& m) {
+			mMixer = m;
+
+			for (LTSynth& s : mSynths) {
+				s.init(m);
+				m.add(s.getSynth());
+			}
+		}
 	private:
 
 		friend class boost::serialization::access;
@@ -46,11 +55,11 @@ namespace lotide {
 			ar & mSynthPhrases;
 			ar & groups;
 			// Dependent on setting group
-			// ar & activeGroup;
+			ar & activeGroup;
 			// Dependent on phrases and groups
-			// ar & mCurrentLength;
+			ar & mCurrentLength;
 			// Dependent on Synth, so meaningless
-			// ar & mNextUniqueId;
+			ar & mNextUniqueId;
 		}
 
 		std::string mName;

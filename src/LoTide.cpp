@@ -62,7 +62,9 @@ namespace lotide {
 			assert(false);
 		}
 
-		songs.emplace_back(Song(song, masterMixer));
+		song.init(masterMixer);
+
+		songs.emplace_back(song);
 	}
 
 	void LoTide::save(std::string filePath) {
