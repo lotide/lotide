@@ -1,9 +1,13 @@
 #ifndef LOTIDE_HPP
 #define LOTIDE_HPP
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <unordered_map>
 
 #ifndef TSF_IMPLEMENTATION
@@ -12,25 +16,27 @@
 #include "Sequencer.hpp"
 #include "Note.hpp"
 #include "Song.hpp"
+#include "Server.hpp"
 
 namespace lotide {
 
-    class LoTide {
-    public:
-        LoTide();
-        //~LoTide();
-        int load(std::string);
-        int save(std::string);
-        void play();
-        void stop();
-        Song& addSong(std::string name);
-        void setSong(std::string name);
-        void setGroup(std::string name);
-    private:
-        tsal::Mixer masterMixer;
-        Sequencer sequencer;
-        std::vector<Song> songs;
-    };
+	class LoTide {
+	public:
+		LoTide();
+		//~LoTide();
+		void play();
+		void stop();
+		void load(std::string name, std::string filePath);
+		void save(std::string filePath);
+		Song& addSong(std::string name);
+		void setSong(std::string name);
+		void setGroup(std::string name);
+		void serve(int port);
+	private:
+		tsal::Mixer masterMixer;
+		Sequencer sequencer;
+		std::vector<Song> songs;
+	};
 
 }
 

@@ -1,3 +1,7 @@
+set(HEADER_LIST "${PROJECT_SOURCE_DIR}/include/LoTide.hpp")
+
+SET(BUILD_SHARED_LIBS ON)
+
 set(SOURCES
   LoTide.cpp
   Sequencer.cpp
@@ -7,32 +11,39 @@ set(SOURCES
   Group.cpp
   main.cpp
   LTSynth.cpp
+  Server.cpp
   )
 
-# set(PROTOS
-#     ${PROJECT_SOURCE_DIR}/protos/lotiderpc.proto
-# )
+add_library(LoTide STATIC ${SOURCES} ${HEADER_LIST})
+add_library(${LOCAL_PROJECT_NAMESPACE}::${LOCAL_PROJECT_NAME} ALIAS LoTide)
 
-# set(PROTO_SRC_DIR ${PROJECT_BINARY_DIR}/proto-src)
-# file(MAKE_DIRECTORY ${PROTO_SRC_DIR})
+find_package(Boost COMPONENTS serialization REQUIRED)
 
-# protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_SRC_DIR} ${PROTOS})
-# grpc_generate_cpp(GRPC_SRCS GRPC_HDRS ${PROTO_SRC_DIR} ${PROTOS})
-
-# add_executable(lotide ${SOURCES} ${PROTO_SRCS} ${GRPC_SRCS})
-
-add_executable(lotide ${SOURCES})
-
-target_include_directories(lotide
-  # PUBLIC
-    # ${PROTO_SRC_DIR}
-  PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
+target_include_directories(LoTide
+  PUBLIC
+  ${Boost_INCLUDE_DIRS}
+  ${PROJECT_SOURCE_DIR}/include
 )
 
-# TODO: Try without ssl/bz2/z/zip
-target_link_libraries(lotide
+target_link_libraries(LoTide
   tsal::tsal
-  # gRPC::grpc++_reflection
-  # protobuf::libprotobuf
+  ${Boost_LIBRARIES}
+  )
+
+add_executable(lotide-bin ${SOURCES})
+
+target_include_directories(lotide-bin
+  PUBLIC
+  ${PROJECT_SOURCE_DIR}/include
+  ${Boost_INCLUDE_DIRS}
+)
+
+target_link_libraries(lotide-bin
+  tsal::tsal
+  ${Boost_LIBRARIES}
+  )
+
+set_target_properties(lotide-bin
+  PROPERTIES
+  OUTPUT_NAME lotide
   )

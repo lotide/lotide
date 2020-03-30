@@ -1,6 +1,8 @@
 #include "Phrase.hpp"
 
 namespace lotide {
+	Phrase::Phrase() {}
+
 	Phrase::Phrase(std::string name, unsigned id) : mName(name), mId(id) {
 		mLength = 0;
 	}
