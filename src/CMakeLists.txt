@@ -1,8 +1,12 @@
 set(SOURCES
   LoTide.cpp
-  LoTideCli.cpp
-  # LoTideServer.cpp
+  Sequencer.cpp
+  Note.cpp
+  Song.cpp
+  Phrase.cpp
+  Group.cpp
   main.cpp
+  LTSynth.cpp
   )
 
 # set(PROTOS
@@ -19,22 +23,21 @@ set(SOURCES
 
 add_executable(lotide ${SOURCES})
 
+find_package(Boost COMPONENTS serialization REQUIRED)
+
 target_include_directories(lotide
   # PUBLIC
-    # ${PROTO_SRC_DIR}
+	# ${PROTO_SRC_DIR}
   PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
+	${PROJECT_SOURCE_DIR}/include
+  PUBLIC
+  ${Boost_INCLUDE_DIRS}
 )
 
 # TODO: Try without ssl/bz2/z/zip
 target_link_libraries(lotide
   tsal::tsal
-  libzippp
-  tinyxml2
-  z
-  zip
-  ssl
-  bz2
+  ${Boost_LIBRARIES}
   # gRPC::grpc++_reflection
   # protobuf::libprotobuf
   )
