@@ -42,7 +42,7 @@ namespace lotide {
 			// Dependent on underlying hardware
 			// ar & mMixer;
 			// Dependent on underlying hardware
-			// ar & mSynths;
+			ar & mSynths;
 			ar & mSynthPhrases;
 			ar & groups;
 			// Dependent on setting group
