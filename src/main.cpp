@@ -5,7 +5,8 @@
 #include "Group.hpp"
 #include "Phrase.hpp"
 #include "Note.hpp"
-#include <typeinfo>
+
+#include "Server.hpp"
 
 using namespace lotide;
 
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
 
 	lt.stop();
 
-        // Test saving
+	// Test saving
 	lt.save("test.txt");
 
 	// Test loading

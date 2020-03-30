@@ -16,6 +16,7 @@
 #include "Sequencer.hpp"
 #include "Note.hpp"
 #include "Song.hpp"
+#include "Server.hpp"
 
 namespace lotide {
 
@@ -30,6 +31,7 @@ namespace lotide {
 		Song& addSong(std::string name);
 		void setSong(std::string name);
 		void setGroup(std::string name);
+		void serve(int port);
 	private:
 		tsal::Mixer masterMixer;
 		Sequencer sequencer;
