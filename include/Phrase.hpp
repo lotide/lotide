@@ -1,8 +1,9 @@
 #ifndef PHRASE_HPP
 #define PHRASE_HPP
 
-#include <boost/serialization/vector.hpp>
-#include <string>
+#include <cereal/access.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp>
 
 #include "Note.hpp"
 #include "tsal.hpp"
@@ -21,15 +22,11 @@ namespace lotide {
 		unsigned getId() { return mId; }
 		std::string getName() { return mName; }
 	private:
-
-		friend class boost::serialization::access;
+		friend class cereal::access;
 		template<class Archive>
-		void serialize(Archive & ar, const unsigned int version)
+		void serialize(Archive & ar)
 		{
-			ar & mName;
-			ar & mLength;
-			ar & mId;
-			ar & mNotes;
+			ar(mName, mLength, mId, mNotes);
 		}
 
 		std::string mName;

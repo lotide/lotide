@@ -1,6 +1,2 @@
-[submodule "extern/TSAL"]
-	path = extern/TSAL
-	url = https://github.com/Calvin-CS/TSAL
-	branch = cmake
 [submodule "TSAL"]
 	update = rebase

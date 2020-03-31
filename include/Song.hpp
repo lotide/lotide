@@ -1,9 +1,11 @@
 #ifndef SONG_HPP
 #define SONG_HPP
 
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/unordered_map.hpp>
-#include <boost/serialization/vector.hpp>
+#include <cereal/access.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/unordered_map.hpp>
 
 #include <string>
 
@@ -34,7 +36,7 @@ namespace lotide {
 		Phrase& addPhrase(std::string name, unsigned synthId);
 
 		void init(tsal::Mixer& m) {
-			mMixer = m;
+			mMixer = &m;
 
 			for (LTSynth& s : mSynths) {
 				s.init(m);
@@ -42,24 +44,17 @@ namespace lotide {
 			}
 		}
 	private:
-
-		friend class boost::serialization::access;
+		friend class cereal::access;
 		template<class Archive>
-		void serialize(Archive & ar, const unsigned int version)
+		void serialize(Archive & ar)
 		{
-			ar & mName;
-			// Dependent on underlying hardware
-			// ar & mMixer;
-			// Dependent on underlying hardware
-			ar & mSynths;
-			ar & mSynthPhrases;
-			ar & groups;
-			// Dependent on setting group
-			ar & activeGroup;
-			// Dependent on phrases and groups
-			ar & mCurrentLength;
-			// Dependent on Synth, so meaningless
-			ar & mNextUniqueId;
+			ar( mName,
+				mSynths,
+				mSynthPhrases,
+				groups,
+				// activeGroup,
+				mCurrentLength,
+				mNextUniqueId );
 		}
 
 		std::string mName;

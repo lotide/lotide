@@ -1,7 +1,7 @@
 #ifndef NOTE_HPP
 #define NOTE_HPP
 
-#include <boost/serialization/serialization.hpp>
+#include <cereal/access.hpp>
 
 namespace lotide {
 
@@ -20,16 +20,12 @@ public:
 	void setStartTime(int t);
 	void setDuration(int d);
 private:
-
-		friend class boost::serialization::access;
-		template<class Archive>
-		void serialize(Archive & ar, const unsigned int version)
-		{
-			ar & note;
-			ar & velocity;
-			ar & startTime;
-			ar & duration;
-		}
+	friend class cereal::access;
+	template<class Archive>
+	void serialize(Archive & ar)
+	{
+		ar(note, velocity, startTime, duration);
+	}
 
 	double note;
 	double velocity;

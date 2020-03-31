@@ -56,15 +56,15 @@ namespace lotide {
 		std::ifstream ifs(filePath);
 
 		if (ifs.good()) {
-			boost::archive::text_iarchive ia(ifs);
-			ia >> song;
+			cereal::XMLInputArchive archive(ifs);
+			archive(song);
 		} else {
 			assert(false);
 		}
 
 		song.init(masterMixer);
 
-		songs.emplace_back(song);
+		songs.emplace_back(std::move(song));
 	}
 
 	void LoTide::save(std::string filePath) {
@@ -73,8 +73,8 @@ namespace lotide {
 		std::ofstream ofs(filePath);
 
 		if (ofs.good()) {
-			boost::archive::text_oarchive oa(ofs);
-			oa << song;
+			cereal::XMLOutputArchive archive(ofs);
+			archive(song);
 		} else {
 			assert(false);
 		}

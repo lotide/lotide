@@ -1,7 +1,7 @@
 #ifndef LTSYNTH_HPP
 #define LTSYNTH_HPP
 
-#include <boost/serialization/serialization.hpp>
+#include <cereal/access.hpp>
 
 #include "tsal.hpp"
 
@@ -19,16 +19,15 @@ namespace lotide {
 		tsal::PolySynth& getSynth() { return mSynth; }
 
 		void init(tsal::Mixer& m) {
-			mSynth = tsal::PolySynth(m);
+			mSynth = tsal::PolySynth(&m);
 		}
 	private:
-
-		friend class boost::serialization::access;
+		friend class cereal::access;
 		template<class Archive>
-		void serialize(Archive & ar, const unsigned int version)
+		void serialize(Archive & ar)
 		{
 			// ar & mSynth;
-			ar & mId;
+			ar(mId);
 		}
 
 		tsal::PolySynth mSynth;

@@ -1,8 +1,7 @@
 #ifndef LOTIDE_HPP
 #define LOTIDE_HPP
 
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <cereal/archives/xml.hpp>
 
 #include <vector>
 #include <string>

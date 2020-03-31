@@ -17,17 +17,14 @@ set(SOURCES
 add_library(LoTide STATIC ${SOURCES} ${HEADER_LIST})
 add_library(${LOCAL_PROJECT_NAMESPACE}::${LOCAL_PROJECT_NAME} ALIAS LoTide)
 
-find_package(Boost COMPONENTS serialization REQUIRED)
-
 target_include_directories(LoTide
   PUBLIC
-  ${Boost_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/include
 )
 
 target_link_libraries(LoTide
   tsal::tsal
-  ${Boost_LIBRARIES}
+  cereal
   )
 
 add_executable(lotide-bin ${SOURCES})
@@ -35,12 +32,11 @@ add_executable(lotide-bin ${SOURCES})
 target_include_directories(lotide-bin
   PUBLIC
   ${PROJECT_SOURCE_DIR}/include
-  ${Boost_INCLUDE_DIRS}
 )
 
 target_link_libraries(lotide-bin
   tsal::tsal
-  ${Boost_LIBRARIES}
+  cereal
   )
 
 set_target_properties(lotide-bin
