@@ -1,6 +1,6 @@
 [submodule "extern/TSAL"]
 	path = extern/TSAL
-	url = https://github.com/duckonomy/TSAL.git
+	url = https://github.com/Calvin-CS/TSAL.git
 	branch = cmake
 [submodule "extern/libzippp"]
 	path = extern/libzippp
