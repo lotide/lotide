@@ -1,8 +1,3 @@
-[submodule "extern/TSAL"]
-	path = extern/TSAL
-	url = https://github.com/Calvin-CS/TSAL
-	branch = cmake
-
 [submodule "extern/cereal"]
 	path = extern/cereal
 	url = https://github.com/USCiLab/cereal
