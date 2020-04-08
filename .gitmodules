@@ -2,7 +2,6 @@
 	path = extern/cereal
 	url = https://github.com/USCiLab/cereal
 	branch = master
-
 [submodule "extern/TSAL"]
 	path = extern/TSAL
 	url = https://github.com/Calvin-CS/TSAL
