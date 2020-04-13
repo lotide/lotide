@@ -79,9 +79,4 @@ namespace lotide {
 			assert(false);
 		}
 	}
-
-	void LoTide::serve(int port) {
-		Server serv(port);
-		serv.init();
-	}
 }
