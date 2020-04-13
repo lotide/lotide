@@ -115,7 +115,7 @@ namespace lotide {
 
 	LTSynth& Song::addSynth() {
 		LTSynth newSynth(mNextUniqueId, *mMixer);
-		int count = mMixer->getMaster().getInstrumentCount();
+		// int count = mMixer->getMaster().getInstrumentCount();
 
 		mSynths.push_back(std::move(newSynth));
 		mNextUniqueId++;
