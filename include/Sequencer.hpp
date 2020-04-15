@@ -35,6 +35,7 @@ namespace lotide {
         Song* activeSong;
         bool isPlaying;
         std::unordered_map<unsigned, std::vector<Note>> playing;
+        std::map<Note, int> noteTimes;
     };
 
 }

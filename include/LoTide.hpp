@@ -22,7 +22,6 @@ namespace lotide {
 	class LoTide {
 	public:
 		LoTide();
-		//~LoTide();
 		void play();
 		void stop();
 		void load(std::string name, std::string filePath);

@@ -25,8 +25,6 @@ namespace lotide {
 	}
 
 	void Sequencer::stop() {
-		clearAll();
-
 		isPlaying = false;
 	}
 
@@ -53,12 +51,20 @@ namespace lotide {
 
 			LTSynth* synth = synths[playingNotes.first];
 
-			std::vector<Note> toBeRemoved;
+			std::vector<int> toBeRemoved;
 
-			for (Note playingNote : playingNotes.second) {
-				if (playingNote.getDuration() <= currentTime - playingNote.getStartTime()) {
+			for (int i = 0; i < playingNotes.second.size(); i++) {
+				Note& playingNote = playingNotes.second[i];
+
+				if (playingNote.getDuration() <= abs(currentTime - noteTimes.at(playingNote))) {
 					synth->stop(playingNote.getNote());
+					noteTimes.erase(playingNote);
+					toBeRemoved.push_back(i);
 				}
+			}
+
+			for (int remIndex : toBeRemoved) {
+				playing[playingNotes.first].erase(playing[playingNotes.first].begin() + remIndex);
 			}
 		}
 	}
@@ -74,6 +80,8 @@ namespace lotide {
 		} else {
 			playing[synthId].push_back(note);
 		}
+
+		noteTimes[note] = currentTime;
 
 		LTSynth* synth = synths[synthId];
 		synth->play(note.getNote(), note.getVelocity());
@@ -102,6 +110,9 @@ namespace lotide {
 
 		if (isPlaying) {
 			tick();
+		}
+		else {
+			clearAll();
 		}
 	}
 

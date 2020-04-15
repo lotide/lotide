@@ -16,6 +16,7 @@ namespace lotide {
 		Phrase();
 		Phrase(std::string name, unsigned id);
 		Phrase(std::string newName, unsigned id, Phrase& otherPhrase);
+		void setLength(int newLength);
 		const std::vector<Note>& getNotes() { return mNotes; }
 		unsigned getLength() { return mLength; }
 		void addNote(Note&& n);
@@ -30,7 +31,7 @@ namespace lotide {
 		}
 
 		std::string mName;
-		unsigned mLength;
+		unsigned mLength = -1;
 		unsigned mId;
 		std::vector<Note> mNotes;
 	};

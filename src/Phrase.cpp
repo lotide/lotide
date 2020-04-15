@@ -13,14 +13,19 @@ namespace lotide {
 		}
 	}
 
+	void Phrase::setLength(int newLength) {
+		if (newLength >= mLength) {
+			mLength = newLength;
+		}
+	}
+
 	void Phrase::addNote(Note&& n) {
 		mNotes.push_back(n);
 
 		for (auto& note : mNotes) {
 			unsigned noteLength = note.getStartTime() + note.getDuration();
-			if (noteLength > mLength) {
-				mLength = noteLength;
-			}
+
+			setLength(noteLength);
 		}
 	}
 }
