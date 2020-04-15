@@ -2,18 +2,24 @@
 #include "iostream"
 
 #ifdef _WIN32
+  #ifndef _WIN32_WINNT
+    #define _WIN32_WINNT 0x0501 /* For Windows XP. */
+  #endif
+  #include <winsock2.h>
+  #include <Ws2tcpip.h>
 #else
-#include <sys/socket.h>
-#include <arpa/inet.h>
-
+	#include <sys/socket.h>
+	#include <arpa/inet.h>
 #endif
 
-int main()
-{
+int main() {
 
-#ifdef _WIN32
-#else
-	int sock = 0, valread;
+	#ifdef _WIN32
+        WSADATA wsa_data;
+        WSAStartup(MAKEWORD(1,1), &wsa_data);
+	#endif
+
+	unsigned int sock = 0, valread;
 	struct sockaddr_in serv_addr;
 	char buffer[1024] = {0};
 
@@ -30,9 +36,16 @@ int main()
 	send(sock , message.c_str(), message.length(), 0);
 	std::cout << "Message sent" << std::endl;
 
-	valread = read( sock , buffer, 1024);
+	// valread = read( sock , buffer, 1024);
+	valread = recv(sock, buffer, 1024, 0);
 	std::cout << buffer << std::endl;
-#endif
+
+    #ifdef _WIN32
+		closesocket(sock);
+        WSACleanup();
+    #else
+		close(sock);
+    #endif
 
 	return 0;
 }

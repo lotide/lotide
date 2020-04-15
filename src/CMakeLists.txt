@@ -27,6 +27,10 @@ target_link_libraries(LoTide
   cereal
   )
 
+if(WIN32)
+  target_link_libraries(LoTide wsock32 ws2_32)
+endif()
+
 add_executable(lotide-bin ${SOURCES})
 
 target_include_directories(lotide-bin
@@ -38,6 +42,10 @@ target_link_libraries(lotide-bin
   tsal::tsal
   cereal
   )
+
+if(WIN32)
+  target_link_libraries(lotide-bin wsock32 ws2_32)
+endif()
 
 set_target_properties(lotide-bin
   PROPERTIES

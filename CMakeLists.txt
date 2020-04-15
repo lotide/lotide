@@ -54,6 +54,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 # find_package(Protobuf REQUIRED)
 # find_package(GRPC REQUIRED)
 
+if(WIN32)
+  find_library(WSOCK32_LIBRARY wsock32)
+  find_library(WS2_32_LIBRARY ws2_32)
+endif()
+
+
 
 add_subdirectory(extern)
 
