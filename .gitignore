@@ -9,3 +9,4 @@ build/*
 .rubocop
 out/*
 .vs/*
+.ccls-cache

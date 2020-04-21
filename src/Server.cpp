@@ -136,8 +136,6 @@ namespace lotide {
 			// (i.e. a serialized LoTide object)? or internal
 			send(new_socket, message.c_str(), message.length(), 0);
 
-			// LOOP should end here
-
 			if (shutdown(new_socket, SHUT_RDWR) == -1) {
 				perror("shutdown failed");
 				close(new_socket);
