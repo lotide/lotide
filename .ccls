@@ -1,0 +1,18 @@
+clang
+%h -x c++-header
+-I./include
+-I./src
+-I./extern/TSAL/src
+-I./extern/TSAL/include
+-I./extern/cereal/include/cereal
+-I./extern/cereal/include/cereal/archives
+-I./extern/cereal/include/cereal/details
+-I./extern/cereal/include/cereal/types
+-I./extern/cereal/include/cereal/types/concepts
+-I./extern/json/include/nlohmann
+-I./extern/json/include/nlohmann/detail
+-I./extern/json/include/nlohmann/detail/conversions
+-I./extern/json/include/nlohmann/detail/input
+-I./extern/json/include/nlohmann/detail/iterators
+-I./extern/json/include/nlohmann/detail/meta
+-I./extern/json/include/nlohmann/detail/output
