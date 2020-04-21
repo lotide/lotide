@@ -9,5 +9,5 @@
 
 [submodule "extern/json"]
 	path = extern/json
-        url = https://github.com/nlohmann/json
+	url = https://github.com/nlohmann/json
 	branch = master
