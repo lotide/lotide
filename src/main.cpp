@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 	lt.setGroup("normal");
 
 	char input;
+
 	std::cout << "Press <enter> to begin:" << std::endl;
 	std::cin.get(input);
 

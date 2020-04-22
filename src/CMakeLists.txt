@@ -3,6 +3,7 @@ set(HEADER_LIST "${PROJECT_SOURCE_DIR}/include/LoTide.hpp")
 SET(BUILD_SHARED_LIBS ON)
 
 set(SOURCES
+  Server.cpp
   LoTide.cpp
   Sequencer.cpp
   Note.cpp
@@ -11,7 +12,6 @@ set(SOURCES
   Group.cpp
   main.cpp
   LTSynth.cpp
-  Server.cpp
   )
 
 add_library(LoTide STATIC ${SOURCES} ${HEADER_LIST})
@@ -25,6 +25,7 @@ target_include_directories(LoTide
 target_link_libraries(LoTide
   tsal::tsal
   cereal
+  nlohmann_json::nlohmann_json
   )
 
 add_executable(lotide-bin ${SOURCES})
@@ -37,6 +38,7 @@ target_include_directories(lotide-bin
 target_link_libraries(lotide-bin
   tsal::tsal
   cereal
+  nlohmann_json::nlohmann_json
   )
 
 set_target_properties(lotide-bin

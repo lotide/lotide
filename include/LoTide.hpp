@@ -15,7 +15,6 @@
 #include "Sequencer.hpp"
 #include "Note.hpp"
 #include "Song.hpp"
-#include "Server.hpp"
 
 namespace lotide {
 
