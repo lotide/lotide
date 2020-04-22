@@ -63,9 +63,13 @@ namespace lotide {
 				}
 			}
 
+			int offset = 0;
 			for (int remIndex : toBeRemoved) {
-				playing[playingNotes.first].erase(playing[playingNotes.first].begin() + remIndex);
+				playingNotes.second.erase(playingNotes.second.begin() + remIndex - offset);
+				offset++;
 			}
+
+			playing[playingNotes.first] = std::move(playingNotes.second);
 		}
 	}
 
@@ -102,9 +106,9 @@ namespace lotide {
 
 		std::chrono::system_clock::time_point after = std::chrono::system_clock::now();
 
-		std::chrono::milliseconds time = 
+		std::chrono::milliseconds time = max(std::chrono::milliseconds(0),
 			std::chrono::milliseconds(60000 / (mBpm * ppq))
-			- std::chrono::duration_cast<std::chrono::milliseconds>(after - now);
+			- std::chrono::duration_cast<std::chrono::milliseconds>(after - now));
 
 		std::this_thread::sleep_for(time);
 
@@ -130,9 +134,9 @@ namespace lotide {
 				synth->stop(note);
 			}
 			synth->stop(tsal::Gs7);
-		}
 
-		playing.clear();
+			noteList.second.clear();
+		}
 	}
 
 	void Sequencer::setSong(Song& s) {
