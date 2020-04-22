@@ -20,8 +20,8 @@ namespace lotide {
 		}
 
 		// Don't really need
-		setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt,
-				   sizeof(opt));
+		//setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_BROADCAST, &opt,
+				   //sizeof(opt));
 
 		// NOTE Clear address (basically like null assignment)
 		memset(&address, 0, sizeof address);
@@ -34,14 +34,24 @@ namespace lotide {
 		// Bind to address
 		if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) == -1) {
 			perror("bind failed");
+#ifdef _WIN32
+			closesocket(server_fd);
+			WSACleanup();
+#else
 			close(server_fd);
+#endif
 			exit(EXIT_FAILURE);
 		}
 
 		// Listen to address
 		if (listen(server_fd, 10) == -1) {
 			perror("listen failed");
+#ifdef _WIN32
+			closesocket(server_fd);
+			WSACleanup();
+#else
 			close(server_fd);
+#endif
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -109,7 +119,12 @@ namespace lotide {
 
 			if (0 > new_socket) {
 				perror("accept failed");
+#ifdef _WIN32
+				closesocket(server_fd);
+				WSACleanup();
+#else
 				close(server_fd);
+#endif
 				exit(EXIT_FAILURE);
 			}
 
@@ -136,14 +151,27 @@ namespace lotide {
 			// (i.e. a serialized LoTide object)? or internal
 			send(new_socket, message.c_str(), message.length(), 0);
 
+#ifdef _WIN32
+			if (shutdown(new_socket, SD_BOTH)) {
+#else
 			if (shutdown(new_socket, SHUT_RDWR) == -1) {
+#endif
 				perror("shutdown failed");
+#ifdef _WIN32
+				closesocket(new_socket);
+				WSACleanup();
+#else
 				close(new_socket);
-				close(server_fd);
+#endif
 				exit(EXIT_FAILURE);
 			}
 
+#ifdef _WIN32
+			closesocket(new_socket);
+			WSACleanup();
+#else
 			close(new_socket);
+#endif
 		}
 	}
 }

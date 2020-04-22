@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+
 # Set the project name
 project(${LOCAL_PROJECT_NAME}
 		VERSION ${LOCAL_PROJECT_VERSION}
@@ -27,7 +28,7 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 	option(GIT_SUBMODULE "Check submodules during build" ON)
 	if(GIT_SUBMODULE)
 		message(STATUS "Submodule update")
-		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive --remote
+		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive 
 						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 						RESULT_VARIABLE GIT_SUBMOD_RESULT)
 		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
@@ -35,8 +36,6 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 		endif()
 	endif()
 endif()
-
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-deprecated")
 
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/TSAL")
 	message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")

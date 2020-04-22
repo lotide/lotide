@@ -29,7 +29,6 @@ namespace lotide {
 		{
 			ar(mName, mLength, mId, mNotes);
 		}
-
 		std::string mName;
 		unsigned mLength = -1;
 		unsigned mId;
