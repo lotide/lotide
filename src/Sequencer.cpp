@@ -34,8 +34,8 @@ namespace lotide {
 			return;
 		}
 
-		std::unordered_map<unsigned, std::vector<Note>> newUpcoming = activeSong->getUpcoming(currentTime);
-		for (std::pair<unsigned, std::vector<Note>> newNotes : newUpcoming) {
+		std::unordered_map<unsigned, std::list<Note>> newUpcoming = activeSong->getUpcoming(currentTime);
+		for (std::pair<unsigned, std::list<Note>> newNotes : newUpcoming) {
 			unsigned synthId = newNotes.first;
 
 			for (Note newNote : newNotes.second) {
@@ -46,27 +46,27 @@ namespace lotide {
 
 	void Sequencer::processNotes() {
 		// check if notes need to be stopped
-		for (std::pair<unsigned, std::vector<Note>> playingNotes : playing) {
+		for (std::pair<unsigned, std::list<Note>> playingNotes : playing) {
 			std::vector<LTSynth*> synths = activeSong->getSynths();
 
 			LTSynth* synth = synths[playingNotes.first];
 
-			std::vector<int> toBeRemoved;
+			std::list<Note> toBeRemoved;
 
-			for (int i = 0; i < playingNotes.second.size(); i++) {
-				Note& playingNote = playingNotes.second[i];
+			for (Note& playingNote : playingNotes.second) {
 
 				if (playingNote.getDuration() <= abs(currentTime - noteTimes.at(playingNote))) {
 					synth->stop(playingNote.getNote());
 					noteTimes.erase(playingNote);
-					toBeRemoved.push_back(i);
+					toBeRemoved.push_back(playingNote);
 				}
 			}
 
-			int offset = 0;
-			for (int remIndex : toBeRemoved) {
-				playingNotes.second.erase(playingNotes.second.begin() + remIndex - offset);
-				offset++;
+			for (Note& note : toBeRemoved) {
+				std::list<Note>::iterator it = std::find(playingNotes.second.begin(), playingNotes.second.end(), note);
+				if (it != playingNotes.second.end()) {
+					playingNotes.second.erase(it);
+				}
 			}
 
 			playing[playingNotes.first] = std::move(playingNotes.second);
@@ -77,10 +77,10 @@ namespace lotide {
 		std::vector<LTSynth*> synths = activeSong->getSynths();
 
 		if (playing.find(synthId) == playing.end()) {
-			std::vector<Note> synthNotes;
+			std::list<Note> synthNotes;
 			synthNotes.push_back(note);
 
-			playing.insert(std::pair<unsigned, std::vector<Note>>(synthId, std::move(synthNotes)));
+			playing.insert(std::pair<unsigned, std::list<Note>>(synthId, std::move(synthNotes)));
 		} else {
 			playing[synthId].push_back(note);
 		}
@@ -127,15 +127,15 @@ namespace lotide {
 
 		std::vector<LTSynth*> synths = activeSong->getSynths();
 
-		for (std::pair<unsigned, std::vector<Note>> noteList : playing) {
-			LTSynth* synth = synths[noteList.first];
+		for (std::pair<unsigned, std::list<Note>> notevector : playing) {
+			LTSynth* synth = synths[notevector.first];
 
 			for (double note = tsal::A0; note != tsal::Gs7; note++) {
 				synth->stop(note);
 			}
 			synth->stop(tsal::Gs7);
 
-			noteList.second.clear();
+			notevector.second.clear();
 		}
 	}
 

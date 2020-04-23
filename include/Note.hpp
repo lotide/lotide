@@ -22,6 +22,9 @@ namespace lotide {
 		void setStartTime(int t);
 		void setDuration(int d);
 		static unsigned nextId;
+		bool operator ==(const Note& rhs) const {
+			return id == rhs.id;
+		}
 		bool operator <(const Note& rhs) const
 		{
 			return id < rhs.getId();

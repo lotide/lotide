@@ -55,8 +55,8 @@ namespace lotide {
 		return groups[groups.size() - 1];
 	}
 
-	std::unordered_map<unsigned, std::vector<Note>> Song::getUpcoming(unsigned time) {
-		std::unordered_map<unsigned, std::vector<Note>> notes;
+	std::unordered_map<unsigned, std::list<Note>> Song::getUpcoming(unsigned time) {
+		std::unordered_map<unsigned, std::list<Note>> notes;
 
 		if (mCurrentLength == 0) {
 			return notes;

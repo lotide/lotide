@@ -7,7 +7,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
-
+#include <list>
 #include "tsal.hpp"
 #include "Song.hpp"
 
@@ -34,7 +34,7 @@ namespace lotide {
         int currentTime;
         Song* activeSong;
         bool isPlaying;
-        std::unordered_map<unsigned, std::vector<Note>> playing;
+        std::unordered_map<unsigned, std::list<Note>> playing;
         std::map<Note, int> noteTimes;
     };
 

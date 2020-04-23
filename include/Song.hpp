@@ -8,7 +8,7 @@
 #include <cereal/types/unordered_map.hpp>
 
 #include <string>
-
+#include <list>
 #include "tsal.hpp"
 
 #include "Phrase.hpp"
@@ -26,7 +26,7 @@ namespace lotide {
 		Song(Song& other, tsal::Mixer& m);
 		LTSynth& addSynth();
 		std::vector<unsigned> getSynthIds();
-		std::unordered_map<unsigned, std::vector<Note>> getUpcoming(unsigned time);
+		std::unordered_map<unsigned, std::list<Note>> getUpcoming(unsigned time);
 		std::vector<LTSynth*> getSynths();
 		void setGroup(Group& g);
 		unsigned getLength() { return mCurrentLength; }
