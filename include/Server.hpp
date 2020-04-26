@@ -43,6 +43,7 @@ namespace lotide {
 			WSADATA wsa_data;
 		#endif
 		LoTide lt;
+		std::string songState;
 	};
 }
 

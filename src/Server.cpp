@@ -100,8 +100,10 @@ namespace lotide {
 	// Understand states for this project
 	void Server::parseExecute(std::string command) {
 		if (command == "play") {
+			std::string things = "what";
 			lt.play();
 		} else if (command == "stop") {
+			std::string things = "what";
 			lt.stop();
 		} else if (command == "close") {
 			std::cout << "Successfully Closed" << std::endl;
@@ -132,24 +134,26 @@ namespace lotide {
 
 			// TODO Remove this and put struct in header
 			// Build Empty Object of Project State [Send State]
-			std::string message = "Message from server";
+			// std::string message = "Message from server";
 
 			// START Procedure [Parse Commands]
-			// TODO Parse JSON
+			// FIXME when buffer is 4 char (For command) ends with two brackets
+			valread = recv(new_socket, buffer, sizeof(buffer), 0);
 
-			valread = recv(new_socket, buffer, 4096, 0);
+			auto clientJSON = nlohmann::json::parse(buffer);
 
-			std::cout << buffer << std::endl;
+			// std::cout << "Client: " << clientJSON.dump() << std::endl;
 
-			// j.push_back(buffer);
-			parseExecute(buffer);
+			parseExecute(clientJSON["command"]);
 
 			// END Procedure
+			songState = lt.serializeJSON();
 
 			// SEND Project State
 			// FIXME Should this "state" be from LoTide
 			// (i.e. a serialized LoTide object)? or internal
-			send(new_socket, message.c_str(), message.length(), 0);
+			send(new_socket, songState.c_str(), songState.length(), 0);
+			// send(new_socket, message.c_str(), message.length(), 0);
 
 #ifdef _WIN32
 			if (shutdown(new_socket, SD_BOTH)) {
