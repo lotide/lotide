@@ -2,6 +2,11 @@
 #define LOTIDE_HPP
 
 #include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/concepts/pair_associative_container.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/vector.hpp>
 
 #include <vector>
 #include <string>
@@ -25,6 +30,7 @@ namespace lotide {
 		void stop();
 		void load(std::string name, std::string filePath);
 		void save(std::string filePath);
+		std::string serializeJSON();
 		Song& addSong(std::string name);
 		void setSong(std::string name);
 		void setGroup(std::string name);

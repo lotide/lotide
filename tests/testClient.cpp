@@ -40,6 +40,7 @@ int socketStart(std::string response) {
 	WSAStartup(MAKEWORD(1,1), &wsa_data);
 #endif
 
+
 	unsigned int sock = 0, valread;
 	struct sockaddr_in serv_addr;
 	char buffer[1024] = {0};
@@ -67,6 +68,7 @@ int socketStart(std::string response) {
 	// TODO Have to handle string length
 	send(sock , response.c_str(), response.length(), 0);
 	std::cout << "Message sent" << std::endl;
+	std::cout << "From socketStart() this is c_str" << response.c_str() << std::endl;
 
 	valread = recv(sock , buffer, 1024, 0);
 	std::cout << buffer << std::endl;
@@ -119,9 +121,14 @@ int parseCommand(std::string s) {
 						  << std::endl;
 			}
 		} else if (command1 == "play") {
-			socketStart("play");
+			socketStart("{ \"command\": \"play\", \"paramaters\": \"\" }");
+		// } else if (command1 == "json") {
+		//	socketStart("{ \"command\": \"json\", \"paramaters\": \"\" }");
+		} else if (command1 == "close") {
+			socketStart("{ \"command\": \"close\", \"paramaters\": \"\" }");
+			exit(EXIT_SUCCESS);
 		} else if (command1 == "stop") {
-			socketStart("stop");
+			socketStart("{ \"command\": \"stop\", \"paramaters\": \"\" }");
 		} else {
 			std::cout << "Command \"" << command1 << "\" is not found!\n" \
 					  << "Type \"help\" for a list of commands.\n"    \

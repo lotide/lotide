@@ -79,4 +79,19 @@ namespace lotide {
 			assert(false);
 		}
 	}
+
+	std::string LoTide::serializeJSON() {
+		Song& song = sequencer.getSong();
+		std::stringstream os;
+
+		if (os.good()) {
+			cereal::JSONOutputArchive archive_out(os);
+			archive_out(CEREAL_NVP(song));
+			// archive_out(CEREAL_NVP(song));
+		} else {
+			assert(false);
+		}
+
+		return os.str();
+	}
 }
