@@ -26,6 +26,7 @@ namespace lotide {
 
 	void Sequencer::stop() {
 		isPlaying = false;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
 	// Look in LoTide to find all notes which need to be added
