@@ -43,7 +43,7 @@ int socketStart(std::string response) {
 
 	unsigned int sock = 0, valread;
 	struct sockaddr_in serv_addr;
-	char buffer[1024] = {0};
+	char buffer[4096] = {0};
 
 	// TODO Consider AF_UNIX because it is just a file
 	sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -70,7 +70,7 @@ int socketStart(std::string response) {
 	std::cout << "Message sent" << std::endl;
 	std::cout << "From socketStart() this is c_str" << response.c_str() << std::endl;
 
-	valread = recv(sock , buffer, 1024, 0);
+	valread = recv(sock , buffer, sizeof(buffer), 0);
 	std::cout << buffer << std::endl;
 
 #ifdef _WIN32
@@ -122,8 +122,6 @@ int parseCommand(std::string s) {
 			}
 		} else if (command1 == "play") {
 			socketStart("{ \"command\": \"play\", \"paramaters\": \"\" }");
-		// } else if (command1 == "json") {
-		//	socketStart("{ \"command\": \"json\", \"paramaters\": \"\" }");
 		} else if (command1 == "close") {
 			socketStart("{ \"command\": \"close\", \"paramaters\": \"\" }");
 			exit(EXIT_SUCCESS);
