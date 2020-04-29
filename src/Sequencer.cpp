@@ -46,31 +46,32 @@ namespace lotide {
 	}
 
 	void Sequencer::processNotes() {
+		std::map<unsigned, std::list<Note>> toBeRemoved;
+
 		// check if notes need to be stopped
 		for (std::pair<unsigned, std::list<Note>> playingNotes : playing) {
 			std::vector<LTSynth*> synths = activeSong->getSynths();
 
 			LTSynth* synth = synths[playingNotes.first];
 
-			std::list<Note> toBeRemoved;
-
 			for (Note& playingNote : playingNotes.second) {
+				double val = playingNote.getNote();
 
 				if (playingNote.getDuration() <= abs(currentTime - noteTimes.at(playingNote))) {
-					synth->stop(playingNote.getNote());
+					//std::cout << "stopping " << val << std::endl;
+					synth->stop(val);
 					noteTimes.erase(playingNote);
-					toBeRemoved.push_back(playingNote);
+					toBeRemoved[playingNotes.first].push_back(playingNote);
 				}
 			}
 
-			for (Note& note : toBeRemoved) {
-				std::list<Note>::iterator it = std::find(playingNotes.second.begin(), playingNotes.second.end(), note);
-				if (it != playingNotes.second.end()) {
-					playingNotes.second.erase(it);
-				}
-			}
+			
+		}
 
-			playing[playingNotes.first] = std::move(playingNotes.second);
+		for (std::pair<unsigned, std::list<Note>> remPair : toBeRemoved) {
+			for (Note& n : remPair.second) {
+				playing[remPair.first].remove(n);
+			}
 		}
 	}
 
@@ -90,20 +91,25 @@ namespace lotide {
 
 		LTSynth* synth = synths[synthId];
 		synth->play(note.getNote(), note.getVelocity());
+
+		//std::cout << "playing " << note.getNote() << std::endl;
 	}
 
 	void Sequencer::tick() {
 		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
 		unsigned currentLength = activeSong->getLength();
-		currentTime = (currentTime + 1) % currentLength;
 
-		if (currentTime == 0) {
-			clearAll();
+		if (currentLength != 0) {
+			currentTime = (currentTime + 1) % currentLength;
+
+			if (currentTime == 0) {
+				clearAll();
+			}
+
+			findUpcomingNotes();
+			processNotes();
 		}
-
-		findUpcomingNotes();
-		processNotes();
 
 		std::chrono::system_clock::time_point after = std::chrono::system_clock::now();
 
@@ -142,5 +148,13 @@ namespace lotide {
 
 	void Sequencer::setSong(Song& s) {
 		activeSong = &s;
+	}
+
+	void Sequencer::setCurrentTime(int pulse) {
+		int length = activeSong->getLength();
+
+		if (pulse < length) {
+			currentTime = pulse;
+		}
 	}
 }

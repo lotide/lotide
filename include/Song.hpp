@@ -39,7 +39,6 @@ namespace lotide {
 			mMixer = &m;
 
 			for (LTSynth& s : mSynths) {
-				s.init(m);
 				m.add(s.getSynth());
 			}
 		}

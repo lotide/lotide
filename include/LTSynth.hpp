@@ -17,11 +17,6 @@ namespace lotide {
 		void stop(double note) { mSynth.stop(note); }
 
 		tsal::PolySynth& getSynth() { return mSynth; }
-
-		void init(tsal::Mixer& m) {
-			// mSynth = tsal::PolySynth(&m);
-			mSynth = tsal::PolySynth();
-		}
 	private:
 		friend class cereal::access;
 		template<class Archive>

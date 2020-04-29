@@ -14,33 +14,33 @@ using namespace lotide;
 int main(int argc, char *argv[])
 {
 	lotide::LoTide lt;
+	lt.setTempo(150);
 	int q = Sequencer::ppq;
 	// make a song
 	Song& song = lt.addSong("Song1");
-
 	LTSynth& synth = song.addSynth();
-	synth.play(71, 100);
 
 	Group& g = song.makeNewGroup("normal");
 
-	Phrase& p = song.addPhrase("Phrase1", synth.getId());
-	p.setLength(4 * q);
-	p.addNote(Note(tsal::A4, 100, 0, q));
-	p.addNote(Note(tsal::E3, 100, 0, 4 * q));
-	p.addNote(Note(tsal::B4, 100, q, q));
-	p.addNote(Note(tsal::C5, 100, 2*q, q));
-	p.addNote(Note(tsal::D5, 100, 3*q, q));
+	Phrase& lorule = song.addPhrase("Lorule", synth.getId());
+	lorule.addNote(Note(tsal::G4, 100, 0, 24));
+	lorule.addNote(Note(tsal::C4, 100, 24, 4));
+	lorule.addNote(Note(tsal::G4, 100, 28, 4));
+	lorule.addNote(Note(tsal::C5, 100, 32, 4));
+	lorule.addNote(Note(tsal::A4, 100, 36, 2));
+	lorule.addNote(Note(tsal::As4, 100, 38, 2));
+	lorule.addNote(Note(tsal::A4, 100, 40, 22));
+	lorule.addNote(Note(tsal::G4, 100, 60, 2));
+	lorule.addNote(Note(tsal::F4, 100, 62, 2));
 
-	Phrase& p2 = song.addPhrase("Phrase2", synth.getId());
-	p2.setLength(4 * q);
-	p2.addNote(Note(tsal::C3, 100, 0, 4 * q));
-	p2.addNote(Note(tsal::E5, 100, 0, q));
-	p2.addNote(Note(tsal::D5, 100, q, q));
-	p2.addNote(Note(tsal::F5, 100, 2 * q, q));
-	p2.addNote(Note(tsal::E5, 100, 3 * q, q));
+	lorule.addNote(Note(tsal::G4, 100, 64, 8));
+	lorule.addNote(Note(tsal::C4, 100, 72, 16));
+	lorule.addNote(Note(tsal::F4, 100, 88, 8));
+	lorule.addNote(Note(tsal::D4, 100, 96, 2));
+	lorule.addNote(Note(tsal::Ds4, 100, 98, 2));
+	lorule.addNote(Note(tsal::D4, 100, 100, 28));
 
 	g.addPhrase(0, 0);
-	//g.addPhrase(0, 1);
 
 	lt.setSong("Song1");
 	lt.setGroup("normal");
@@ -49,7 +49,6 @@ int main(int argc, char *argv[])
 
 	std::cout << "Press <enter> to begin:" << std::endl;
 	std::cin.get(input);
-	synth.stop(71);
 
 	lt.play();
 

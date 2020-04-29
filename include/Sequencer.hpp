@@ -29,6 +29,8 @@ namespace lotide {
         void tick();
         void setSong(Song& s);
         Song& getSong() { return *activeSong; }
+        void setTempo(int bpm) { mBpm = bpm; }
+        void setCurrentTime(int pulse);
     private:
         int mBpm = 90;
         int currentTime;
