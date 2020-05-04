@@ -41,6 +41,14 @@ namespace lotide {
 		}
 	}
 
+	void LoTide::setNextGroup(std::string name) {
+		Song* activeSong = &sequencer.getSong();
+
+		if (activeSong) {
+			activeSong->setNextGroup(name);
+		}
+	}
+
 	void LoTide::play() {
 		sequencer.start();
 	}

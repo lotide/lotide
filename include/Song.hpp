@@ -28,12 +28,14 @@ namespace lotide {
 		std::vector<unsigned> getSynthIds();
 		std::unordered_map<unsigned, std::list<Note>> getUpcoming(unsigned time);
 		std::vector<LTSynth*> getSynths();
-		void setGroup(Group& g);
+		Phrase& addPhrase(std::string name, unsigned synthId);
 		unsigned getLength() { return mCurrentLength; }
 		Group& makeNewGroup(std::string groupName);
 		std::string getName() { return mName; }
 		void setGroup(std::string name);
-		Phrase& addPhrase(std::string name, unsigned synthId);
+		void setGroup(Group& g);
+		void setNextGroup(std::string name);
+		void setNextGroup(Group& g);
 
 		void init(tsal::Mixer& m) {
 			mMixer = &m;
@@ -62,6 +64,7 @@ namespace lotide {
 		std::unordered_map<unsigned, std::vector<Phrase>> mSynthPhrases;
 		std::vector<Group> groups;
 		Group* activeGroup;
+		Group* nextGroup = NULL;
 		unsigned mCurrentLength;
 		unsigned mNextUniqueId = 0;
 	};

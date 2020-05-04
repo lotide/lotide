@@ -64,6 +64,11 @@ namespace lotide {
 
 		unsigned normTime = time % mCurrentLength;
 
+		if (normTime == 0 && nextGroup != NULL) {
+			setGroup(*nextGroup);
+			nextGroup = NULL;
+		}
+
 		for (auto& kv : mSynths) {
 			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
 
@@ -142,7 +147,7 @@ namespace lotide {
 		mCurrentLength = 0;
 
 		for (auto& kv : mSynths) {
-			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
+			std::vector<unsigned> phrases = activeGroup->getPhrases(kv.getId());
 
 			unsigned thisLength = 0;
 
@@ -161,5 +166,17 @@ namespace lotide {
 		mSynthPhrases[synthId].push_back(std::move(p));
 
 		return mSynthPhrases[synthId][mSynthPhrases[synthId].size() - 1];
+	}
+
+	void Song::setNextGroup(std::string name) {
+		for (Group& g : groups) {
+			if (g.getName() == name) {
+				setNextGroup(g);
+			}
+		}
+	}
+
+	void Song::setNextGroup(Group& g) {
+		nextGroup = &g;
 	}
 }

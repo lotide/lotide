@@ -34,6 +34,7 @@ namespace lotide {
 		Song& addSong(std::string name);
 		void setSong(std::string name);
 		void setGroup(std::string name);
+		void setNextGroup(std::string name);
 		void serve(int port);
 		void setTempo(int bpm) { sequencer.setTempo(bpm); }
 	private:
