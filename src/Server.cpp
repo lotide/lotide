@@ -76,14 +76,14 @@ namespace lotide {
 
 		Group& g = song.makeNewGroup("normal");
 
-		Phrase& p = song.addPhrase("Phrase1", synth.getId());
+		Phrase& p = song.addPhrase("Phrase1");
 		p.setLength(4 * q);
 		p.addNote(Note(tsal::A4, 100, 0, q/2));
 		p.addNote(Note(tsal::B4, 100, q, q/2));
 		p.addNote(Note(tsal::C5, 100, 2*q, q/2));
 		p.addNote(Note(tsal::D5, 100, 3*q, q/2));
 
-		Phrase& p2 = song.addPhrase("Phrase2", synth.getId());
+		Phrase& p2 = song.addPhrase("Phrase2");
 		p2.setLength(4 * q);
 		p2.addNote(Note(tsal::E5, 100, 0, q/2));
 		p2.addNote(Note(tsal::D5, 100, q, q/2));

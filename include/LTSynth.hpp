@@ -10,7 +10,7 @@ namespace lotide {
 
 	public:
 		LTSynth();
-		LTSynth(unsigned id, tsal::Mixer &mixer);
+		LTSynth(unsigned id);
 		LTSynth(LTSynth&& move) noexcept;
 		unsigned getId() { return mId; }
 		void play(double note, double velocity) { mSynth.play(note, velocity); }

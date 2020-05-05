@@ -12,36 +12,12 @@ namespace lotide {
 	Song::Song(Song&& other) noexcept :
 		mName(std::move(other.mName)),
 		mSynths(std::move(other.mSynths)),
-		mSynthPhrases(std::move(other.mSynthPhrases)),
+		mPhrases(std::move(other.mPhrases)),
 		groups(std::move(other.groups)),
 		activeGroup(std::move(other.activeGroup)),
 		mCurrentLength(other.mCurrentLength),
-		mNextUniqueId(other.mNextUniqueId) {
+		mNextUniqueSynthId(other.mNextUniqueSynthId) {
 		mMixer = other.mMixer;
-	}
-
-	// For Serialization
-	Song::Song(Song& other, tsal::Mixer& m) {
-		mMixer = &m;
-
-		LTSynth& synth = addSynth();
-
-		mName = other.mName;
-
-		for (auto& kv: other.groups) {
-			Group& g = makeNewGroup(kv.getName());
-
-			for (auto& kk: other.mSynthPhrases) {
-				for (auto& x: kk.second) {
-					Phrase& p = addPhrase(x.getName(), synth.getId());
-					for (auto& y: x.getNotes()) {
-						p.addNote((Note(y.getNote(), y.getVelocity(),
-										y.getStartTime(), y.getDuration())));
-					}
-					g.addPhrase(synth.getId(), p.getId());
-				}
-			}
-		}
 	}
 
 	Group& Song::makeNewGroup(std::string groupName) {
@@ -72,24 +48,25 @@ namespace lotide {
 		for (auto& kv : mSynths) {
 			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
 
-			int desId = 0;
-			Phrase* desired = &mSynthPhrases[kv.getId()][phrases[desId]];
-			//Phrase* desired = &mSynthPhrases[kv.getId()][0];
+			if (phrases.size() != 0) {
 
-			unsigned previousLength = 0;
-			while (desired->getLength() + previousLength <= normTime) {
-				desId++;
+				int desId = 0;
+				Phrase* desired = &mPhrases[phrases[desId]];
 
-				desired = &mSynthPhrases[kv.getId()][phrases[desId]];
-				//desired = &mSynthPhrases[kv.getId()][0];
-				previousLength += desired->getLength();
-			}
+				unsigned previousLength = 0;
+				while (desired->getLength() + previousLength <= normTime) {
+					desId++;
 
-			unsigned actualTime = normTime - previousLength;
+					desired = &mPhrases[phrases[desId]];
+					previousLength += desired->getLength();
+				}
 
-			for (auto &note : desired->getNotes()) {
-				if (note.getStartTime() == actualTime) {
-					notes[kv.getId()].push_back(note);
+				unsigned actualTime = normTime - previousLength;
+
+				for (auto& note : desired->getNotes()) {
+					if (note.getStartTime() == actualTime) {
+						notes[kv.getId()].push_back(note);
+					}
 				}
 			}
 		}
@@ -119,11 +96,10 @@ namespace lotide {
 	}
 
 	LTSynth& Song::addSynth() {
-		LTSynth newSynth(mNextUniqueId, *mMixer);
-		// int count = mMixer->getMaster().getInstrumentCount();
+		LTSynth newSynth(mNextUniqueSynthId);
 
 		mSynths.push_back(std::move(newSynth));
-		mNextUniqueId++;
+		mNextUniqueSynthId++;
 
 		for (Group g : groups) {
 			g.addSynth(newSynth.getId());
@@ -152,7 +128,7 @@ namespace lotide {
 			unsigned thisLength = 0;
 
 			for (auto& phrase : phrases) {
-				thisLength += mSynthPhrases[kv.getId()][phrase].getLength();
+				thisLength += mPhrases[phrase].getLength();
 			}
 
 			if (thisLength > mCurrentLength) {
@@ -161,11 +137,13 @@ namespace lotide {
 		}
 	}
 
-	Phrase& Song::addPhrase(std::string name, unsigned synthId) {
-		Phrase p(name, synthId);
-		mSynthPhrases[synthId].push_back(std::move(p));
+	Phrase& Song::addPhrase(std::string name) {
+		Phrase p(name, mNextUniquePhraseId);
+		mPhrases.push_back(std::move(p));
 
-		return mSynthPhrases[synthId][mSynthPhrases[synthId].size() - 1];
+		mNextUniquePhraseId++;
+
+		return mPhrases[mPhrases.size() - 1];
 	}
 
 	void Song::setNextGroup(std::string name) {

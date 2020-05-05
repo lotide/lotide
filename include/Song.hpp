@@ -23,12 +23,12 @@ namespace lotide {
 		Song();
 		Song(std::string name, tsal::Mixer& m);
 		Song(Song&& other) noexcept;
-		Song(Song& other, tsal::Mixer& m);
+		/*Song(Song& other, tsal::Mixer& m);*/
 		LTSynth& addSynth();
 		std::vector<unsigned> getSynthIds();
 		std::unordered_map<unsigned, std::list<Note>> getUpcoming(unsigned time);
 		std::vector<LTSynth*> getSynths();
-		Phrase& addPhrase(std::string name, unsigned synthId);
+		Phrase& addPhrase(std::string name);
 		unsigned getLength() { return mCurrentLength; }
 		Group& makeNewGroup(std::string groupName);
 		std::string getName() { return mName; }
@@ -51,22 +51,25 @@ namespace lotide {
 		{
 			ar( mName,
 				mSynths,
-				mSynthPhrases,
+				mPhrases,
 				groups,
 				// activeGroup,
 				mCurrentLength,
-				mNextUniqueId );
+				mNextUniqueSynthId,
+				mNextUniquePhraseId);
 		}
 
 		std::string mName;
 		tsal::Mixer* mMixer;
 		std::vector<LTSynth> mSynths;
-		std::unordered_map<unsigned, std::vector<Phrase>> mSynthPhrases;
+		//std::unordered_map<unsigned, std::vector<Phrase>> mSynthPhrases;
+		std::vector<Phrase> mPhrases;
 		std::vector<Group> groups;
 		Group* activeGroup;
 		Group* nextGroup = NULL;
 		unsigned mCurrentLength;
-		unsigned mNextUniqueId = 0;
+		unsigned mNextUniqueSynthId = 0;
+		unsigned mNextUniquePhraseId = 0;
 	};
 
 }
