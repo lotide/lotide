@@ -20,6 +20,8 @@ namespace lotide {
 		std::vector<unsigned>& getPhrases(unsigned synthId);
 		void addSynth(unsigned synthId);
 		std::string getName() { return mName; }
+		void addNextGroup(int groupId);
+		int getNextGroup() { return nextGroup; }
 	private:
 		friend class cereal::access;
 		template<class Archive>
@@ -30,6 +32,7 @@ namespace lotide {
 
 		std::string mName;
 		std::unordered_map<unsigned, std::vector<unsigned>> mSynthPhrases;
+		int nextGroup = NULL;
 	};
 
 }
