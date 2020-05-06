@@ -118,6 +118,7 @@ namespace lotide {
 	}
 
 	void Song::setGroup(std::string name) {
+		activeGroupName = name;
 		for (Group& g : groups) {
 			if (g.getName() == name) {
 				setGroup(g);
@@ -144,8 +145,8 @@ namespace lotide {
 			}
 		}
 
-		if (g.getNextGroup() == NULL) { 
-			nextGroup = NULL; 
+		if (g.getNextGroup() == NULL) {
+			nextGroup = NULL;
 		} else {
 			nextGroup = &groups[g.getNextGroup()];
 		}
@@ -170,5 +171,17 @@ namespace lotide {
 
 	void Song::setNextGroup(Group& g) {
 		nextGroup = &g;
+	}
+
+	Group& Song::getActiveGroup() {
+		return *activeGroup;
+	}
+
+	Phrase& Song::getPhrase(unsigned phraseId) {
+		return mPhrases[phraseId];
+	}
+
+	LTSynth& Song::getSynth(unsigned synthId) {
+		return *mSynths[synthId];
 	}
 }

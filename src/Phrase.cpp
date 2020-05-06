@@ -28,4 +28,19 @@ namespace lotide {
 			setLength(noteLength);
 		}
 	}
+
+	void Phrase::removeNote(double myNote, int startTime) {
+		for (auto& note : mNotes) {
+			if (note.getNote() == myNote && note.getStartTime() == startTime) {
+				mNotes.erase(std::remove(mNotes.begin(), mNotes.end(), note), mNotes.end());
+
+				unsigned noteLength = note.getStartTime() + note.getDuration();
+
+				if (mLength == noteLength) {
+					mLength -= note.getDuration();
+				}
+			}
+		}
+	}
+
 }

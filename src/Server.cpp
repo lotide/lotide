@@ -19,10 +19,6 @@ namespace lotide {
 			exit(EXIT_FAILURE);
 		}
 
-		// Don't really need
-		//setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_BROADCAST, &opt,
-				   //sizeof(opt));
-
 		// NOTE Clear address (basically like null assignment)
 		memset(&address, 0, sizeof address);
 
@@ -67,53 +63,66 @@ namespace lotide {
 #endif
 	}
 
-	void Server::initializeLoTide() {
-		int q = Sequencer::ppq;
-
-		Song& song = lt.addSong("Song1");
-
-		LTSynth& synth = song.addSynth();
-
-		Group& g = song.makeNewGroup("normal");
-
-		Phrase& p = song.addPhrase("Phrase1");
-		p.setLength(4 * q);
-		p.addNote(Note(tsal::A4, 100, 0, q/2));
-		p.addNote(Note(tsal::B4, 100, q, q/2));
-		p.addNote(Note(tsal::C5, 100, 2*q, q/2));
-		p.addNote(Note(tsal::D5, 100, 3*q, q/2));
-
-		Phrase& p2 = song.addPhrase("Phrase2");
-		p2.setLength(4 * q);
-		p2.addNote(Note(tsal::E5, 100, 0, q/2));
-		p2.addNote(Note(tsal::D5, 100, q, q/2));
-		p2.addNote(Note(tsal::F5, 100, 2 * q, q/2));
-		p2.addNote(Note(tsal::E5, 100, 3 * q, q/2));
-
-		g.addPhrase(0, 0);
-		g.addPhrase(0, 1);
-
-		lt.setSong("Song1");
-		lt.setGroup("normal");
-	}
-
-	// Understand states for this project
-	void Server::parseExecute(std::string command) {
+	void Server::parseExecute(std::string command, std::vector<std::string> params) {
 		if (command == "play") {
-			std::string things = "what";
+			// Need this to increment and refresh current length according to added phrases
+			lt.setGroup(activeInstanceGroup);
 			lt.play();
 		} else if (command == "stop") {
-			std::string things = "what";
 			lt.stop();
+		} else if (command == "playNote") {
+			Song& song = lt.getActiveSong();
+			LTSynth& synth = song.getSynth(activeSynthId);
+			synth.play(std::stod(params[0]), std::stod(params[1]));
+			usleep(300000);
+			synth.stop(std::stod(params[0]));
 		} else if (command == "close") {
 			std::cout << "Successfully Closed" << std::endl;
 			exit(EXIT_SUCCESS);
+		} else if (command == "addSong") {
+			// FIXME No way to display active song
+			lt.addSong(params[0]);
+			lt.setSong(params[0]);
+		} else if (command == "addSynth") {
+			Song& song = lt.getActiveSong();
+			LTSynth& synth = song.addSynth();
+			activeSynthId = synth.getId();
+		} else if (command == "addGroup") {
+			Song& song = lt.getActiveSong();
+			song.makeNewGroup(params[0]);
+			lt.setGroup(params[0]);
+		} else if (command == "addPhrase") {
+			Song& song = lt.getActiveSong();
+			Group& group = song.getActiveGroup();
+			song.addPhrase(params[0]);
+			group.addPhrase(activeSynthId, phraseIncrement);
+			++phraseIncrement;
+		} else if (command == "addNote") {
+			Song& song = lt.getActiveSong();
+			Phrase& phrase = song.getPhrase(activePhraseId);
+			phrase.addNote(Note(std::stod(params[0]), std::stod(params[1]), std::stoi(params[2]), std::stoi(params[3])));
+		} else if (command == "removeNote") {
+			Song& song = lt.getActiveSong();
+			Phrase& phrase = song.getPhrase(activePhraseId);
+			phrase.removeNote(std::stod(params[0]), std::stod(params[1]));
+		} else if (command == "setActivePhrase") {
+			activePhraseId = std::stoul(params[0]);
+		} else if (command == "setActiveGroup") {
+			activeInstanceGroup = params[0];
+			lt.setGroup(params[0]);
+		} else if (command == "setActiveSong") {
+			lt.setSong(params[0]);
+		} else if (command == "setLength") {
+			Song& song = lt.getActiveSong();
+			Phrase& phrase = song.getPhrase(activePhraseId);
+			phrase.setLength(stoi(params[0]));
+		} else {
+			std::cout << "Wrong input" << std::endl;
 		}
 	}
 
 	// TODO Filter Message size
 	void Server::init() {
-		initializeLoTide();
 		for (;;) {
 			// Open socket to connection [BLOCKING]
 			new_socket = accept(server_fd, (struct sockaddr *)&address,
@@ -130,30 +139,24 @@ namespace lotide {
 				exit(EXIT_FAILURE);
 			}
 
-			// LOOP should start here
+			std::vector<unsigned char> buffer(4096);
+			valread = recv(new_socket, buffer.data(), buffer.size(), 0);
+			if (valread != -1) {
+				buffer.resize(valread);
+			} else {
+				exit(1);
+			}
 
-			// TODO Remove this and put struct in header
-			// Build Empty Object of Project State [Send State]
-			// std::string message = "Message from server";
+			std::string receivedData(buffer.begin(), buffer.end());
 
-			// START Procedure [Parse Commands]
-			// FIXME when buffer is 4 char (For command) ends with two brackets
-			valread = recv(new_socket, buffer, sizeof(buffer), 0);
-
+			std::cout << receivedData << std::endl;
 			auto clientJSON = nlohmann::json::parse(buffer);
 
-			// std::cout << "Client: " << clientJSON.dump() << std::endl;
+			parseExecute(clientJSON["command"], clientJSON["parameters"]);
+			std::cout << clientJSON["parameters"] << std::endl;
 
-			parseExecute(clientJSON["command"]);
-
-			// END Procedure
 			songState = lt.serializeJSON();
-
-			// SEND Project State
-			// FIXME Should this "state" be from LoTide
-			// (i.e. a serialized LoTide object)? or internal
 			send(new_socket, songState.c_str(), songState.length(), 0);
-			// send(new_socket, message.c_str(), message.length(), 0);
 
 #ifdef _WIN32
 			if (shutdown(new_socket, SD_BOTH)) {
