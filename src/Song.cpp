@@ -52,19 +52,29 @@ namespace lotide {
 				int desId = 0;
 				Phrase* desired = &mPhrases[phrases[desId]];
 
+				bool noPhrase = false;
+
 				unsigned previousLength = 0;
 				while (desired->getLength() + previousLength <= normTime) {
 					desId++;
+
+					if (desId >= phrases.size() || phrases[desId] >= mPhrases.size()) {
+						noPhrase = true;
+						break;
+					}
 
 					desired = &mPhrases[phrases[desId]];
 					previousLength += desired->getLength();
 				}
 
-				unsigned actualTime = normTime - previousLength;
+				if (!noPhrase) {
 
-				for (auto& note : desired->getNotes()) {
-					if (note.getStartTime() == actualTime) {
-						notes[kv->getId()].push_back(note);
+					unsigned actualTime = normTime - previousLength;
+
+					for (auto& note : desired->getNotes()) {
+						if (note.getStartTime() == actualTime) {
+							notes[kv->getId()].push_back(note);
+						}
 					}
 				}
 			}
