@@ -37,6 +37,7 @@ namespace lotide {
 		void setNextGroup(std::string name);
 		void serve(int port);
 		void setTempo(int bpm) { sequencer.setTempo(bpm); }
+		Song& getActiveSong();
 	private:
 		tsal::Mixer masterMixer;
 		Sequencer sequencer;

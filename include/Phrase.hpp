@@ -4,6 +4,8 @@
 #include <cereal/access.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
 
 #include "Note.hpp"
 #include "tsal.hpp"
@@ -20,6 +22,7 @@ namespace lotide {
 		const std::vector<Note>& getNotes() { return mNotes; }
 		unsigned getLength() { return mLength; }
 		void addNote(Note&& n);
+		void removeNote(double myNote, int startTime);
 		unsigned getId() { return mId; }
 		std::string getName() { return mName; }
 	private:
@@ -27,7 +30,10 @@ namespace lotide {
 		template<class Archive>
 		void serialize(Archive & ar)
 		{
-			ar(mName, mLength, mId, mNotes);
+			ar(cereal::make_nvp("name", mName),
+			   cereal::make_nvp("length", mLength),
+			   cereal::make_nvp("id", mId),
+			   cereal::make_nvp("notes", mNotes));
 		}
 		std::string mName;
 		unsigned mLength = -1;

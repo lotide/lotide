@@ -64,8 +64,8 @@ namespace lotide {
 		std::ifstream ifs(filePath);
 
 		if (ifs.good()) {
-			cereal::XMLInputArchive archive(ifs);
-			archive(song);
+			cereal::JSONInputArchive archive_in(ifs);
+			archive_in(song);
 		} else {
 			assert(false);
 		}
@@ -81,8 +81,8 @@ namespace lotide {
 		std::ofstream ofs(filePath);
 
 		if (ofs.good()) {
-			cereal::XMLOutputArchive archive(ofs);
-			archive(song);
+			cereal::JSONOutputArchive archive_out(ofs);
+			archive_out(song);
 		} else {
 			assert(false);
 		}
@@ -95,11 +95,14 @@ namespace lotide {
 		if (os.good()) {
 			cereal::JSONOutputArchive archive_out(os);
 			archive_out(CEREAL_NVP(song));
-			// archive_out(CEREAL_NVP(song));
 		} else {
 			assert(false);
 		}
 
 		return os.str();
+	}
+
+	Song& LoTide::getActiveSong() {
+		return sequencer.getSong();
 	}
 }

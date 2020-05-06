@@ -5,6 +5,8 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/unordered_map.hpp>
 #include <cereal/types/string.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
 
 #include "tsal.hpp"
 #include "Phrase.hpp"

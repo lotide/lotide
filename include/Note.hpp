@@ -2,6 +2,8 @@
 #define NOTE_HPP
 
 #include <cereal/access.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
 
 namespace lotide {
 
@@ -37,7 +39,11 @@ namespace lotide {
 		template<class Archive>
 		void serialize(Archive& ar)
 		{
-			ar(note, velocity, startTime, duration, id);
+			ar(cereal::make_nvp("note", note),
+			   cereal::make_nvp("velocity", velocity),
+			   cereal::make_nvp("startTime", startTime),
+			   cereal::make_nvp("duration", duration),
+			   cereal::make_nvp("id", id));
 		}
 
 		double note;
@@ -45,7 +51,7 @@ namespace lotide {
 		int startTime;
 		int duration;
 		unsigned id;
-		
+
 	};
 }
 

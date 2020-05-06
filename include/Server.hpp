@@ -26,7 +26,7 @@ namespace lotide {
 		Server(int port);
 		~Server();
 		void init();
-		void parseExecute(std::string jsonText);
+		void parseExecute(std::string command, std::vector<std::string> params);
 		void initializeLoTide();
 	private:
 		int mPort;
@@ -37,13 +37,16 @@ namespace lotide {
 		struct sockaddr_in address;
 		int opt = 1;
 		int addrlen = sizeof(address);
-		char buffer[4096] = {0};
 		nlohmann::json j;
 		#ifdef _WIN32
 			WSADATA wsa_data;
 		#endif
 		LoTide lt;
 		std::string songState;
+		unsigned activeSynthId = 0;
+		std::string activeInstanceGroup;
+		unsigned phraseIncrement = 0;
+		unsigned activePhraseId = 0;
 	};
 }
 

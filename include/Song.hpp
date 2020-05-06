@@ -6,6 +6,8 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/memory.hpp>
 #include <cereal/types/unordered_map.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
 
 #include <string>
 #include <list>
@@ -38,6 +40,10 @@ namespace lotide {
 		void setNextGroup(std::string name);
 		void setNextGroup(Group& g);
 
+		Phrase& getPhrase(unsigned phraseId);
+		LTSynth& getSynth(unsigned synthId);
+		Group& getActiveGroup();
+
 		void init(tsal::Mixer& m) {
 			mMixer = &m;
 
@@ -50,14 +56,14 @@ namespace lotide {
 		template<class Archive>
 		void serialize(Archive & ar)
 		{
-			ar( mName,
-				mSynths,
-				mPhrases,
-				groups,
-				// activeGroup,
-				mCurrentLength,
-				mNextUniqueSynthId,
-				mNextUniquePhraseId);
+			ar(cereal::make_nvp("name", mName),
+			   cereal::make_nvp("synths", mSynths),
+			   cereal::make_nvp("phrases", mPhrases),
+			   cereal::make_nvp("groups", groups),
+			   cereal::make_nvp("active_group", activeGroupName),
+			   cereal::make_nvp("current_length", mCurrentLength),
+			   cereal::make_nvp("next_unique_synth_id", mNextUniqueSynthId),
+			   cereal::make_nvp("next_unique_phrase_id", mNextUniquePhraseId));
 		}
 
 		std::string mName;
@@ -71,6 +77,7 @@ namespace lotide {
 		unsigned mCurrentLength;
 		unsigned mNextUniqueSynthId = 0;
 		unsigned mNextUniquePhraseId = 0;
+		std::string activeGroupName;
 	};
 
 }
