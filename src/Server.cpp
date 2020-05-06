@@ -74,7 +74,7 @@ namespace lotide {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
 			synth.play(std::stod(params[0]), std::stod(params[1]));
-			usleep(300000);
+			std::this_thread::sleep_for(std::chrono::microseconds(300000));
 			synth.stop(std::stod(params[0]));
 		} else if (command == "close") {
 			std::cout << "Successfully Closed" << std::endl;
@@ -139,7 +139,7 @@ namespace lotide {
 				exit(EXIT_FAILURE);
 			}
 
-			std::vector<unsigned char> buffer(4096);
+			std::vector<char> buffer(4096);
 			valread = recv(new_socket, buffer.data(), buffer.size(), 0);
 			if (valread != -1) {
 				buffer.resize(valread);
