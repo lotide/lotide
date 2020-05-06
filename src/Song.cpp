@@ -42,7 +42,6 @@ namespace lotide {
 
 		if (normTime == 0 && nextGroup != NULL) {
 			setGroup(*nextGroup);
-			nextGroup = NULL;
 		}
 
 		for (auto& kv : mSynths) {
@@ -134,6 +133,12 @@ namespace lotide {
 			if (thisLength > mCurrentLength) {
 				mCurrentLength = thisLength;
 			}
+		}
+
+		if (g.getNextGroup() == NULL) { 
+			nextGroup = NULL; 
+		} else {
+			nextGroup = &groups[g.getNextGroup()];
 		}
 	}
 

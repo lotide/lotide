@@ -19,4 +19,8 @@ namespace lotide {
 	void Group::addSynth(unsigned synthId) {
 		mSynthPhrases[synthId] = std::vector<unsigned>();
 	}
+
+	void Group::addNextGroup(int groupId) {
+		nextGroup = groupId;
+	}
 }
