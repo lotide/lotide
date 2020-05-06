@@ -11,7 +11,6 @@ namespace lotide {
 	public:
 		LTSynth();
 		LTSynth(unsigned id);
-		LTSynth(LTSynth&& move) noexcept;
 		unsigned getId() { return mId; }
 		void play(double note, double velocity) { mSynth.play(note, velocity); }
 		void stop(double note) { mSynth.stop(note); }

@@ -45,7 +45,7 @@ namespace lotide {
 		}
 
 		for (auto& kv : mSynths) {
-			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv.getId());
+			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv->getId());
 
 			if (phrases.size() != 0) {
 
@@ -64,7 +64,7 @@ namespace lotide {
 
 				for (auto& note : desired->getNotes()) {
 					if (note.getStartTime() == actualTime) {
-						notes[kv.getId()].push_back(note);
+						notes[kv->getId()].push_back(note);
 					}
 				}
 			}
@@ -77,7 +77,7 @@ namespace lotide {
 		std::vector < LTSynth* > synths;
 
 		for (auto& kv : mSynths) {
-			LTSynth* ptr = &(kv);
+			LTSynth* ptr = kv.get();
 			synths.push_back(ptr);
 		}
 
@@ -88,24 +88,23 @@ namespace lotide {
 		std::vector<unsigned> synths;
 
 		for (auto& kv : mSynths) {
-			synths.push_back(kv.getId());
+			synths.push_back(kv->getId());
 		}
 
 		return synths;
 	}
 
 	LTSynth& Song::addSynth() {
-		LTSynth newSynth(mNextUniqueSynthId);
-
-		mSynths.push_back(std::move(newSynth));
+		mSynths.push_back(std::make_unique<LTSynth>(mNextUniqueSynthId));
+		LTSynth& newSynth = *mSynths[mNextUniqueSynthId];
 		mNextUniqueSynthId++;
 
 		for (Group g : groups) {
 			g.addSynth(newSynth.getId());
 		}
 
-		mMixer->add(mSynths[newSynth.getId()].getSynth());
-		return mSynths[newSynth.getId()];
+		mMixer->add(newSynth.getSynth());
+		return newSynth;
 	}
 
 	void Song::setGroup(std::string name) {
@@ -122,7 +121,7 @@ namespace lotide {
 		mCurrentLength = 0;
 
 		for (auto& kv : mSynths) {
-			std::vector<unsigned> phrases = activeGroup->getPhrases(kv.getId());
+			std::vector<unsigned> phrases = activeGroup->getPhrases(kv->getId());
 
 			unsigned thisLength = 0;
 

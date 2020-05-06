@@ -29,9 +29,9 @@ int main(int argc, char *argv[])
 	synth2.getSynth().setParameter(tsal::PolySynth::ENV_DECAY, .2);
 	synth2.getSynth().setParameter(tsal::PolySynth::ENV_RELEASE, .3);
 
-	synth2.getSynth().setParameter(tsal::PolySynth::MODULATION_MODE, tsal::Oscillator::AM);
-	synth2.getSynth().setParameter(tsal::PolySynth::OSC1_MODE, tsal::Oscillator::SAW);
-	synth2.getSynth().setParameter(tsal::PolySynth::OSC2_MODE, tsal::Oscillator::SINE);
+	synth2.getSynth().setParameter(tsal::PolySynth::MODULATION_MODE, tsal::Oscillator::MIX);
+	synth2.getSynth().setParameter(tsal::PolySynth::OSC1_MODE, tsal::Oscillator::SINE);
+	synth2.getSynth().setParameter(tsal::PolySynth::OSC2_MODE, tsal::Oscillator::SQUARE);
 	synth2.getSynth().setParameter(tsal::PolySynth::OSC2_OFFSET, 0.3);
 
 

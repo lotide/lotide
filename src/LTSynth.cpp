@@ -5,8 +5,4 @@ namespace lotide {
 	// LTSynth::LTSynth(unsigned id, tsal::Mixer &mixer) : mSynth(&mixer), mId(id) {
 	LTSynth::LTSynth(unsigned id) : mId(id) {
 	}
-
-	LTSynth::LTSynth(LTSynth&& move) noexcept :
-		mId(move.getId()),
-		mSynth(std::move(move.mSynth)) {}
 }
