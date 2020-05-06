@@ -9,6 +9,7 @@
 
 #include <string>
 #include <list>
+#include <memory>
 #include "tsal.hpp"
 
 #include "Phrase.hpp"
@@ -40,8 +41,8 @@ namespace lotide {
 		void init(tsal::Mixer& m) {
 			mMixer = &m;
 
-			for (LTSynth& s : mSynths) {
-				m.add(s.getSynth());
+			for (auto const& s : mSynths) {
+				m.add(s->getSynth());
 			}
 		}
 	private:
@@ -61,7 +62,7 @@ namespace lotide {
 
 		std::string mName;
 		tsal::Mixer* mMixer;
-		std::vector<LTSynth> mSynths;
+		std::vector<std::unique_ptr<LTSynth>> mSynths;
 		//std::unordered_map<unsigned, std::vector<Phrase>> mSynthPhrases;
 		std::vector<Phrase> mPhrases;
 		std::vector<Group> groups;
