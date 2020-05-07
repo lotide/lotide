@@ -107,8 +107,9 @@ namespace lotide {
 				clearAll();
 			}
 
-			findUpcomingNotes();
 			processNotes();
+			findUpcomingNotes();
+			
 		}
 
 		std::chrono::system_clock::time_point after = std::chrono::system_clock::now();
@@ -148,6 +149,7 @@ namespace lotide {
 
 	void Sequencer::setSong(Song& s) {
 		activeSong = &s;
+		mBpm = s.getTempo();
 	}
 
 	void Sequencer::setCurrentTime(int pulse) {

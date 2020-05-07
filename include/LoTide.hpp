@@ -31,13 +31,18 @@ namespace lotide {
 		void load(std::string name, std::string filePath);
 		void save(std::string filePath);
 		std::string serializeJSON();
+		Song& addSong(std::string name, int tempo);
 		Song& addSong(std::string name);
+		Song& getActiveSong();
 		void setSong(std::string name);
 		void setGroup(std::string name);
 		void setNextGroup(std::string name);
 		void serve(int port);
-		void setTempo(int bpm) { sequencer.setTempo(bpm); }
-		Song& getActiveSong();
+		void setTempo(int bpm) { 
+			sequencer.setTempo(bpm);
+		}
+		void setInstrumentPlay(int group1, int group2, int instrumentId);
+		void removeInstrument(int instrumentId);
 	private:
 		tsal::Mixer masterMixer;
 		Sequencer sequencer;

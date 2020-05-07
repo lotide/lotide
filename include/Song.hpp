@@ -24,7 +24,7 @@ namespace lotide {
 
 	public:
 		Song();
-		Song(std::string name, tsal::Mixer& m);
+		Song(std::string name, tsal::Mixer& m, int tempo);
 		Song(Song&& other) noexcept;
 		/*Song(Song& other, tsal::Mixer& m);*/
 		LTSynth& addSynth();
@@ -39,11 +39,19 @@ namespace lotide {
 		void setGroup(Group& g);
 		void setNextGroup(std::string name);
 		void setNextGroup(Group& g);
-
 		Phrase& getPhrase(unsigned phraseId);
 		LTSynth& getSynth(unsigned synthId);
 		Group& getActiveGroup();
-
+		Group& getGroup(std::string groupName) {
+			for (Group& g : groups) {
+				if (g.getName() == groupName) {
+					return g;
+				}
+			}
+		}
+		Group& getGroup(int id) {
+			return groups[id];
+		}
 		void init(tsal::Mixer& m) {
 			mMixer = &m;
 
@@ -51,19 +59,25 @@ namespace lotide {
 				m.add(s->getSynth());
 			}
 		}
+		void setTempo(int bpm) {
+			mTempo = bpm;
+		}
+		int getTempo() { return mTempo; }
 	private:
 		friend class cereal::access;
 		template<class Archive>
 		void serialize(Archive & ar)
 		{
 			ar(cereal::make_nvp("name", mName),
-			   cereal::make_nvp("synths", mSynths),
-			   cereal::make_nvp("phrases", mPhrases),
-			   cereal::make_nvp("groups", groups),
-			   cereal::make_nvp("active_group", activeGroupName),
-			   cereal::make_nvp("current_length", mCurrentLength),
-			   cereal::make_nvp("next_unique_synth_id", mNextUniqueSynthId),
-			   cereal::make_nvp("next_unique_phrase_id", mNextUniquePhraseId));
+				cereal::make_nvp("synths", mSynths),
+				cereal::make_nvp("phrases", mPhrases),
+				cereal::make_nvp("groups", groups),
+				cereal::make_nvp("active_group", activeGroupName),
+				cereal::make_nvp("current_length", mCurrentLength),
+				cereal::make_nvp("next_unique_synth_id", mNextUniqueSynthId),
+				cereal::make_nvp("next_unique_phrase_id", mNextUniquePhraseId),
+				cereal::make_nvp("tempo", mTempo)
+			);
 		}
 
 		std::string mName;
@@ -78,6 +92,7 @@ namespace lotide {
 		unsigned mNextUniqueSynthId = 0;
 		unsigned mNextUniquePhraseId = 0;
 		std::string activeGroupName;
+		int mTempo;
 	};
 
 }

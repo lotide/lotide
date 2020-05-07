@@ -24,6 +24,8 @@ namespace lotide {
 		std::string getName() { return mName; }
 		void addNextGroup(int groupId);
 		int getNextGroup() { return nextGroup; }
+		void setPhrases(int instrId, std::vector<unsigned>& phrases);
+		void removePhrases(int instrId);
 	private:
 		friend class cereal::access;
 		template<class Archive>

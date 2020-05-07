@@ -3,7 +3,7 @@
 namespace lotide {
 	Song::Song() {}
 
-	Song::Song(std::string name, tsal::Mixer& m) : mName(name) {
+	Song::Song(std::string name, tsal::Mixer& m, int tempo) : mName(name), mTempo(tempo) {
 		mMixer = &m;
 		activeGroup = NULL;
 		mCurrentLength = 0;
@@ -18,6 +18,7 @@ namespace lotide {
 		mCurrentLength(other.mCurrentLength),
 		mNextUniqueSynthId(other.mNextUniqueSynthId) {
 		mMixer = other.mMixer;
+		mTempo = other.getTempo();
 	}
 
 	Group& Song::makeNewGroup(std::string groupName) {
@@ -45,6 +46,7 @@ namespace lotide {
 		}
 
 		for (auto& kv : mSynths) {
+			
 			std::vector<unsigned>& phrases = activeGroup->getPhrases(kv->getId());
 
 			if (phrases.size() != 0) {
@@ -63,8 +65,8 @@ namespace lotide {
 						break;
 					}
 
-					desired = &mPhrases[phrases[desId]];
 					previousLength += desired->getLength();
+					desired = &mPhrases[phrases[desId]];
 				}
 
 				if (!noPhrase) {

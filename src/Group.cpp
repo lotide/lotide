@@ -23,4 +23,18 @@ namespace lotide {
 	void Group::addNextGroup(int groupId) {
 		nextGroup = groupId;
 	}
+
+	void Group::setPhrases(int instrId, std::vector<unsigned>& phrases) {
+		std::vector<unsigned> copy;
+
+		for (unsigned& val : phrases) {
+			copy.push_back(unsigned(val));
+		}
+
+		mSynthPhrases[instrId] = std::move(copy);
+	}
+
+	void Group::removePhrases(int instrId) {
+		mSynthPhrases[instrId] = std::vector<unsigned>();
+	}
 }

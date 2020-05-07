@@ -19,8 +19,14 @@ namespace lotide {
 	LoTide::LoTide() : sequencer(90) {
 	}
 
+	Song& LoTide::addSong(std::string name, int tempo) {
+		songs.emplace_back(Song(name, masterMixer, tempo));
+
+		return songs[songs.size() - 1];
+	}
+
 	Song& LoTide::addSong(std::string name) {
-		songs.emplace_back(Song(name, masterMixer));
+		songs.emplace_back(Song(name, masterMixer, 90));
 
 		return songs[songs.size() - 1];
 	}
@@ -72,9 +78,11 @@ namespace lotide {
 
 		song.init(masterMixer);
 		std::string songName = song.getName();
+		sequencer.setTempo(song.getTempo());
 
 		songs.emplace_back(std::move(song));
 		setSong(songName);
+		
 	}
 
 	void LoTide::save(std::string filePath) {
@@ -106,5 +114,20 @@ namespace lotide {
 
 	Song& LoTide::getActiveSong() {
 		return sequencer.getSong();
+	}
+
+	void LoTide::setInstrumentPlay(int g1, int g2, int instrId) {
+		Song& song = sequencer.getSong();
+
+		Group& group1 = song.getGroup(g1);
+		Group& group2 = song.getGroup(g2);
+
+		group1.setPhrases(instrId, group2.getPhrases(instrId));
+	}
+
+	void LoTide::removeInstrument(int instrumentId) {
+		Song& song = sequencer.getSong();
+
+		song.getActiveGroup().removePhrases(instrumentId);
 	}
 }
