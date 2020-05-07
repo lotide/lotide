@@ -71,8 +71,10 @@ namespace lotide {
 		}
 
 		song.init(masterMixer);
+		std::string songName = song.getName();
 
 		songs.emplace_back(std::move(song));
+		setSong(songName);
 	}
 
 	void LoTide::save(std::string filePath) {
