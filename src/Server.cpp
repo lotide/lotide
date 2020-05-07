@@ -6,16 +6,25 @@ namespace lotide {
 		std::cout << "Starting Server!" << std::endl;
 
 #ifdef _WIN32
-		if (WSAStartup(MAKEWORD(1,1), &wsa_data) != 0) {
-			fprintf(stderr,"WSAStartup failed.\n");
-			exit(1);
+		if (WSAStartup(MAKEWORD(1,1), &wsaData) != 0) {
+			std::cerr << "WSAStartup failed." << std::endl;
+			exit(EXIT_FAILURE);
 		}
 #endif
 
+#ifdef WIN32
+	    // Initialize Winsock
+		WSAData wsaData;
+	    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	    if (iResult != 0) {
+	        std::cout << "WSAStartup failed: " << iResult << std::endl;
+	        return;
+        }
+#endif
 		// Create server
-		server_fd = socket(AF_INET, SOCK_STREAM, 0);
-		if (server_fd == -1) {
-			perror("cannot create socket");
+		ListenSocket = socket(AF_INET, SOCK_STREAM, 0);
+		if (ListenSocket == -1) {
+			std::cerr << "Cannot create socket." << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
@@ -27,27 +36,37 @@ namespace lotide {
 		address.sin_addr.s_addr = INADDR_ANY;
 		address.sin_port = htons(mPort);
 
+#ifdef WIN32
+	    // Initialize Winsock
+	    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	    if (iResult != 0) {
+	        std::cout << "WSAStartup failed: " << iResult << std::endl;
+	        return;
+        }
+#endif
 		// Bind to address
-		if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) == -1) {
-			perror("bind failed");
+		if (bind(ListenSocket, (struct sockaddr *)&address, sizeof(address)) == -1) {
+			std::cerr << "Bind failed." << std::endl;
 #ifdef _WIN32
-			closesocket(server_fd);
+			closesocket(ListenSocket);
 			WSACleanup();
 #else
-			close(server_fd);
+			close(ListenSocket);
 #endif
+			std::cerr << "Exit failed." << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
 		// Listen to address
-		if (listen(server_fd, 10) == -1) {
-			perror("listen failed");
+		if (listen(ListenSocket, 10) == -1) {
+			std::cerr << "Listen failed." << std::endl;
 #ifdef _WIN32
-			closesocket(server_fd);
+			closesocket(ListenSocket);
 			WSACleanup();
 #else
-			close(server_fd);
+			close(ListenSocket);
 #endif
+			std::cerr << "Exit failed." << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -61,6 +80,7 @@ namespace lotide {
 #else
 		close(new_socket);
 #endif
+
 	}
 
 	void Server::parseExecute(std::string command, std::vector<std::string> params) {
@@ -125,59 +145,91 @@ namespace lotide {
 	void Server::init() {
 		for (;;) {
 			// Open socket to connection [BLOCKING]
-			new_socket = accept(server_fd, (struct sockaddr *)&address,
-								(socklen_t *)&addrlen);
+#ifdef WIN32
+	        // Initialize Winsock
+	        iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	        if (iResult != 0) {
+	            std::cout << "WSAStartup failed: " << iResult << std::endl;
+	            return;
+        }
+#endif
 
-			if (0 > new_socket) {
-				perror("accept failed");
+		    ClientSocket = accept(ListenSocket, NULL, NULL);
+			// ClientSocket = accept(ListenSocket, (struct sockaddr *)&address,
+			// 					(socklen_t *)&addrlen);
+
+			if (ClientSocket == INVALID_SOCKET) {
+				std::cerr << "Accept failed with error: " << WSAGetLastError() << std::endl;
 #ifdef _WIN32
-				closesocket(server_fd);
+				closesocket(ListenSocket);
 				WSACleanup();
 #else
-				close(server_fd);
+				close(ListenSocket);
 #endif
 				exit(EXIT_FAILURE);
 			}
 
-			std::vector<char> buffer(4096);
-			valread = recv(new_socket, buffer.data(), buffer.size(), 0);
-			if (valread != -1) {
-				buffer.resize(valread);
-			} else {
-				exit(1);
+		    // char recvbuf[4096];
+			// std::vector<char> buffer(4096);
+
+			std::vector<char> buf(4096); // create buffer with preallocated size
+
+#ifdef WIN32
+	        iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	        if (iResult != 0) {
+	            std::cout << "WSAStartup failed: " << iResult << std::endl;
+	            return;
+        }
+#endif
+			valread = recv(ClientSocket, &buf[0], buf.size(), 0);
+			// valread = recv(ClientSocket, recvbuf, 4096, 0);
+			buf.resize(valread);
+			if (valread == -1) {
+				std::cerr << "Receive failed." << std::endl;
+				exit(EXIT_FAILURE);
 			}
 
-			std::string receivedData(buffer.begin(), buffer.end());
+			// std::string receivedData(buffer.begin(), buffer.end());
 
-			std::cout << receivedData << std::endl;
-			auto clientJSON = nlohmann::json::parse(buffer);
+			std::cout << buf.data() << std::endl;
+			auto clientJSON = nlohmann::json::parse(buf.data());
 
 			parseExecute(clientJSON["command"], clientJSON["parameters"]);
 			std::cout << clientJSON["parameters"] << std::endl;
 
 			songState = lt.serializeJSON();
-			send(new_socket, songState.c_str(), songState.length(), 0);
+
+#ifdef WIN32
+	        // Initialize Winsock
+	        iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	        if (iResult != 0) {
+	            std::cout << "WSAStartup failed: " << iResult << std::endl;
+	            return;
+        }
+#endif
+			send(ClientSocket, songState.c_str(), songState.length(), 0);
 
 #ifdef _WIN32
-			if (shutdown(new_socket, SD_BOTH)) {
+			if (shutdown(ClientSocket, SD_BOTH)) {
 #else
-			if (shutdown(new_socket, SHUT_RDWR) == -1) {
+			if (shutdown(ClientSocket, SHUT_RDWR) == -1) {
 #endif
-				perror("shutdown failed");
+				std::cerr << "Shutdown failed." << std::endl;
 #ifdef _WIN32
-				closesocket(new_socket);
+				closesocket(ClientSocket);
 				WSACleanup();
 #else
-				close(new_socket);
+				close(ClientSocket);
 #endif
+				std::cerr << "Close failed." << std::endl;
 				exit(EXIT_FAILURE);
 			}
 
 #ifdef _WIN32
-			closesocket(new_socket);
+			closesocket(ClientSocket);
 			WSACleanup();
 #else
-			close(new_socket);
+			close(ClientSocket);
 #endif
 		}
 	}

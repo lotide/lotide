@@ -9,8 +9,24 @@
 #include <nlohmann/json.hpp>
 
 #ifdef _WIN32
+	// #include <winsock2.h>
+	// #include <Ws2tcpip.h>
+	#undef UNICODE
+
+	#define WIN32_LEAN_AND_MEAN
+
+	#include <windows.h>
 	#include <winsock2.h>
-	#include <Ws2tcpip.h>
+	#include <ws2tcpip.h>
+	#include <stdlib.h>
+	#include <stdio.h>
+
+	// Need to link with Ws2_32.lib
+	#pragma comment (lib, "Ws2_32.lib")
+	// #pragma comment (lib, "Mswsock.lib")
+
+	#define DEFAULT_BUFLEN 512
+	#define DEFAULT_PORT "27015"
 #else
 	#include <sys/socket.h>
 	#include <netinet/in.h>
@@ -33,13 +49,15 @@ namespace lotide {
 		unsigned int new_socket;
 		unsigned int valread;
 		unsigned int server_fd;
-
+	    SOCKET ClientSocket = INVALID_SOCKET;
+	    SOCKET ListenSocket = INVALID_SOCKET;
 		struct sockaddr_in address;
 		int opt = 1;
 		int addrlen = sizeof(address);
 		nlohmann::json j;
 		#ifdef _WIN32
-			WSADATA wsa_data;
+			WSADATA wsaData;
+	    	int iResult;
 		#endif
 		LoTide lt;
 		std::string songState;
