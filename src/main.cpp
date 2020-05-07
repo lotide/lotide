@@ -24,29 +24,29 @@ int main(int argc, char *argv[])
 	LTSynth& synth2 = song.addSynth();
 	int synth2Id = synth2.getId();
 
-	synth2.getSynth().setParameter(tsal::PolySynth::ENV_ATTACK, 0.1);
-	synth2.getSynth().setParameter(tsal::PolySynth::ENV_SUSTAIN, 0.2);
-	synth2.getSynth().setParameter(tsal::PolySynth::ENV_DECAY, .05);
-	synth2.getSynth().setParameter(tsal::PolySynth::ENV_RELEASE, .1);
+	synth2.setParameter(tsal::PolySynth::ENV_ATTACK, 0.1);
+	synth2.setParameter(tsal::PolySynth::ENV_SUSTAIN, 0.2);
+	synth2.setParameter(tsal::PolySynth::ENV_DECAY, .05);
+	synth2.setParameter(tsal::PolySynth::ENV_RELEASE, .1);
 
-	synth2.getSynth().setParameter(tsal::PolySynth::MODULATION_MODE, tsal::Oscillator::MIX);
-	synth2.getSynth().setParameter(tsal::PolySynth::OSC1_MODE, tsal::Oscillator::SINE);
-	synth2.getSynth().setParameter(tsal::PolySynth::OSC2_MODE, tsal::Oscillator::SQUARE);
-	synth2.getSynth().setParameter(tsal::PolySynth::OSC2_OFFSET, 0.3);
+	synth2.setParameter(tsal::PolySynth::MODULATION_MODE, tsal::Oscillator::MIX);
+	synth2.setParameter(tsal::PolySynth::OSC1_MODE, tsal::Oscillator::SINE);
+	synth2.setParameter(tsal::PolySynth::OSC2_MODE, tsal::Oscillator::SQUARE);
+	synth2.setParameter(tsal::PolySynth::OSC2_OFFSET, 0.3);
 
 
 	LTSynth& synth = song.addSynth(); 
 	int synth1Id = synth.getId();
 
-	synth.getSynth().setParameter(tsal::PolySynth::ENV_ATTACK, .05);
-	synth.getSynth().setParameter(tsal::PolySynth::ENV_SUSTAIN, .1);
-	synth.getSynth().setParameter(tsal::PolySynth::ENV_DECAY, .6);
-	synth.getSynth().setParameter(tsal::PolySynth::ENV_RELEASE, .8);
+	synth.setParameter(tsal::PolySynth::ENV_ATTACK, .05);
+	synth.setParameter(tsal::PolySynth::ENV_SUSTAIN, .1);
+	synth.setParameter(tsal::PolySynth::ENV_DECAY, .6);
+	synth.setParameter(tsal::PolySynth::ENV_RELEASE, .8);
 
-	synth.getSynth().setParameter(tsal::PolySynth::MODULATION_MODE, tsal::Oscillator::AM);
-	synth.getSynth().setParameter(tsal::PolySynth::OSC1_MODE, tsal::Oscillator::SAW);
-	synth.getSynth().setParameter(tsal::PolySynth::OSC2_MODE, tsal::Oscillator::SAW);
-	synth.getSynth().setParameter(tsal::PolySynth::OSC2_OFFSET, 0.5);
+	synth.setParameter(tsal::PolySynth::MODULATION_MODE, tsal::Oscillator::AM);
+	synth.setParameter(tsal::PolySynth::OSC1_MODE, tsal::Oscillator::SAW);
+	synth.setParameter(tsal::PolySynth::OSC2_MODE, tsal::Oscillator::SAW);
+	synth.setParameter(tsal::PolySynth::OSC2_OFFSET, 0.5);
 
 	Phrase& bass1 = song.addPhrase("LoruleBass");
 	int bass1Id = bass1.getId();
@@ -134,14 +134,21 @@ int main(int argc, char *argv[])
 
 	char input;
 
+	lt.save("temp.lot");
+	
+
+	LoTide lt2;
+	lt2.load("Song1", "temp.lot");
+	lt2.setGroup("part1");
+
 	std::cout << "Press <enter> to begin:" << std::endl;
 	std::cin.get(input);
 
-	lt.play();
+	lt2.play();
 
 
 	std::cout << "Press <enter> to quit:" << std::endl;
 	std::cin.get(input);
 
-	lt.stop();
+	lt2.stop();
 }

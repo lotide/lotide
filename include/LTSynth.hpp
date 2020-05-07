@@ -18,17 +18,45 @@ namespace lotide {
 		void stop(double note) { mSynth.stop(note); }
 
 		tsal::PolySynth& getSynth() { return mSynth; }
+		void setParameter(tsal::PolySynth::Parameters param, double val) {
+			mParams.push_back(param);
+			mVals.push_back(val);
+			mSynth.setParameter(param, val);
+		}
 	private:
 		friend class cereal::access;
+
 		template<class Archive>
-		void serialize(Archive & ar)
+		void save(Archive & ar) const
 		{
 			// ar & mSynth;
-			ar(mId);
+			ar(
+				cereal::make_nvp("id", mId),
+				cereal::make_nvp("vals", mVals),
+				cereal::make_nvp("params", mParams)
+			);
+		}
+
+		template<class Archive>
+		void load(Archive& ar)
+		{
+			// ar & mSynth;
+			ar(
+				cereal::make_nvp("id", mId),
+				cereal::make_nvp("vals", mVals),
+				cereal::make_nvp("params", mParams)
+			);
+
+			for (int i = 0; i < mParams.size(); i++) {
+				mSynth.setParameter(mParams[i], mVals[i]);
+			}
 		}
 
 		tsal::PolySynth mSynth;
 		unsigned mId;
+
+		std::vector<tsal::PolySynth::Parameters> mParams;
+		std::vector<double> mVals;
 	};
 }
 
