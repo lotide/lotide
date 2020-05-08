@@ -270,8 +270,110 @@ int main(int argc, char *argv[])
 	g.addPhrase(synth3Id, guitar2Id);
 	g.addPhrase(synth3Id, guitar1Id);
 
+	Group& g2 = song.makeNewGroup("part2");
+	Phrase& sunflower = song.addPhrase("Sunflower");
+	int sunflowerId = sunflower.getId();
+	sunflower.setLength(514);
+	// measure 1
+	sunflower.addNote(Note(tsal::G4, 100, 0, 32));
+	sunflower.addNote(Note(tsal::C5, 100, 0, 32));
+	sunflower.addNote(Note(tsal::E5, 100, 0, 32));
+	// measure 2
+	sunflower.addNote(Note(tsal::A4, 100, 32, 16));
+	sunflower.addNote(Note(tsal::D5, 100, 32, 16));
+	sunflower.addNote(Note(tsal::F5, 100, 32, 16));
+	sunflower.addNote(Note(tsal::G5, 100, 48, 12));
+	sunflower.addNote(Note(tsal::F5, 100, 60, 4));
+	// measure 3
+	sunflower.addNote(Note(tsal::A4, 100, 64, 16));
+	sunflower.addNote(Note(tsal::C5, 100, 64, 16));
+	sunflower.addNote(Note(tsal::E5, 100, 64, 16));
+	sunflower.addNote(Note(tsal::A4, 100, 80, 4));
+	sunflower.addNote(Note(tsal::B4, 100, 84, 4));
+	sunflower.addNote(Note(tsal::C5, 100, 88, 4));
+	sunflower.addNote(Note(tsal::D5, 100, 92, 4));
+	// measure 4
+	sunflower.addNote(Note(tsal::Gs4, 100, 96, 8));
+	sunflower.addNote(Note(tsal::C5, 100, 96, 8));
+	sunflower.addNote(Note(tsal::G5, 100, 96, 8));
+	sunflower.addNote(Note(tsal::F5, 100, 104, 12));
+	sunflower.addNote(Note(tsal::C5, 100, 116, 8));
+	sunflower.addNote(Note(tsal::D5, 100, 124, 4));
+	// measure 5
+	sunflower.addNote(Note(tsal::A4, 100, 128, 16));
+	sunflower.addNote(Note(tsal::C5, 100, 128, 16));
+	sunflower.addNote(Note(tsal::E5, 100, 128, 16));
+	sunflower.addNote(Note(tsal::A5, 100, 144, 16));
+	// measure 5
+	sunflower.addNote(Note(tsal::E5, 100, 160, 16));
+	sunflower.addNote(Note(tsal::Gs5, 100, 160, 16));
+	sunflower.addNote(Note(tsal::B5, 100, 160, 16));
+	sunflower.addNote(Note(tsal::C6, 100, 176, 8));
+	sunflower.addNote(Note(tsal::D6, 100, 184, 8));
+	// measure 6
+	sunflower.addNote(Note(tsal::B5, 100, 192, 24));
+	sunflower.addNote(Note(tsal::C6, 100, 192, 24));
+	sunflower.addNote(Note(tsal::E6, 100, 192, 24));
+	sunflower.addNote(Note(tsal::C6, 100, 216, 8));
+	// measure 7
+	sunflower.addNote(Note(tsal::C5, 100, 224, 32));
+	sunflower.addNote(Note(tsal::E5, 100, 224, 32));
+	sunflower.addNote(Note(tsal::A5, 100, 224, 32));
+	// measure 8
+	sunflower.addNote(Note(tsal::A4, 100, 256, 24));
+	sunflower.addNote(Note(tsal::C5, 100, 256, 24));
+	sunflower.addNote(Note(tsal::F5, 100, 256, 24));
+	sunflower.addNote(Note(tsal::A5, 100, 280, 8));
+	// measure 9
+	sunflower.addNote(Note(tsal::D5, 100, 288, 8));
+	sunflower.addNote(Note(tsal::F5, 100, 288, 8));
+	sunflower.addNote(Note(tsal::A5, 100, 288, 8));
+	sunflower.addNote(Note(tsal::G5, 100, 296, 8));
+	sunflower.addNote(Note(tsal::B4, 100, 304, 8));
+	sunflower.addNote(Note(tsal::D5, 100, 304, 8));
+	sunflower.addNote(Note(tsal::G5, 100, 304, 8));
+	sunflower.addNote(Note(tsal::F5, 100, 312, 8));
+	// measure 10
+	sunflower.addNote(Note(tsal::B4, 100, 320, 24));
+	sunflower.addNote(Note(tsal::D5, 100, 320, 24));
+	sunflower.addNote(Note(tsal::G5, 100, 320, 24));
+	sunflower.addNote(Note(tsal::D5, 100, 344, 8));
+	// measure 11
+	sunflower.addNote(Note(tsal::G4, 100, 352, 16));
+	sunflower.addNote(Note(tsal::A4, 100, 352, 16));
+	sunflower.addNote(Note(tsal::Cs5, 100, 352, 16));
+	sunflower.addNote(Note(tsal::D5, 100, 368, 8));
+	sunflower.addNote(Note(tsal::E5, 100, 376, 8));
+	// measure 12
+	sunflower.addNote(Note(tsal::A4, 100, 384, 32));
+	sunflower.addNote(Note(tsal::D5, 100, 384, 32));
+	sunflower.addNote(Note(tsal::F5, 100, 384, 32));
+	// measure 13
+	sunflower.addNote(Note(tsal::Gs4, 100, 416, 32));
+	sunflower.addNote(Note(tsal::Cs5, 100, 416, 32));
+	sunflower.addNote(Note(tsal::F5, 100, 416, 32));
+	// loop point
+	// measure 14 outro 
+	sunflower.addNote(Note(tsal::G4, 100, 448, 16));
+	sunflower.addNote(Note(tsal::C5, 100, 448, 16));
+	sunflower.addNote(Note(tsal::E5, 100, 448, 16));
+	sunflower.addNote(Note(tsal::G4, 100, 468, 4));
+	sunflower.addNote(Note(tsal::B4, 100, 472, 4));
+	sunflower.addNote(Note(tsal::C5, 100, 476, 4));
+	// measure 15 outro 
+	sunflower.addNote(Note(tsal::D5, 100, 480, 6));
+	sunflower.addNote(Note(tsal::E5, 100, 486, 28));
+	
+	Phrase& sunflowerBass = song.addPhrase("SunflowerBass");
+	int sunflowerBassId = sunflowerBass.getId();
+	sunflowerBass.setLength(514);
+	
+	
+	g2.addPhrase(synth1Id, sunflowerId);
+	g2.addPhrase(synth2Id, sunflowerBassId);
+
 	lt.setSong("Song1");
-	lt.setGroup("part1");
+	lt.setGroup("part2");
 
 	char input;
 
@@ -280,7 +382,7 @@ int main(int argc, char *argv[])
 
 	LoTide lt2;
 	lt2.load("Song1", "temp.lot");
-	lt2.setGroup("part1");
+	lt2.setGroup("part2");
 
 	std::cout << "Press <enter> to begin:" << std::endl;
 	std::cin.get(input);
