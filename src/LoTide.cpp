@@ -123,7 +123,7 @@ namespace lotide {
 			song.getActiveGroup().setPhrases(instrId, song.getGroup(g2).getPhrases(instrId));
 		} 
 		else {
-			Group& newGroup = Group(song.getActiveGroup());
+			Group&& newGroup = Group(song.getActiveGroup());
 			newGroup.setName("generated");
 
 			Group& group2 = song.getGroup(g2);
@@ -142,7 +142,7 @@ namespace lotide {
 			song.getActiveGroup().removePhrases(instrumentId);
 		}
 		else {
-			Group& newGroup = Group(song.getActiveGroup());
+			Group&& newGroup = Group(song.getActiveGroup());
 			newGroup.setName("generated");
 
 			newGroup.removePhrases(instrumentId);
