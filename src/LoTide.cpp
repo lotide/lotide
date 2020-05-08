@@ -116,13 +116,18 @@ namespace lotide {
 		return sequencer.getSong();
 	}
 
-	void LoTide::setInstrumentPlay(int g1, int g2, int instrId) {
+	void LoTide::setInstrumentPlay(int g2, int instrId) {
 		Song& song = sequencer.getSong();
 
-		Group& group1 = song.getGroup(g1);
+		Group& newGroup = Group(song.getActiveGroup());
+		newGroup.setName("generated");
+		
 		Group& group2 = song.getGroup(g2);
 
-		group1.setPhrases(instrId, group2.getPhrases(instrId));
+		newGroup.setPhrases(instrId, group2.getPhrases(instrId));
+
+		song.addGroup(std::move(newGroup));
+		setGroup("generated");
 	}
 
 	void LoTide::removeInstrument(int instrumentId) {

@@ -138,8 +138,8 @@ namespace lotide {
 			phrase.setLength(stoi(params[0]));
 		} else if (command == "load") {
 			lt.load(params[0], params[1]);
-		} else if (command == "setInstrumentPlay") {	// replaces instrument param[2]'s phrases in group param[0] to whatever is in group param[1]
-			lt.setInstrumentPlay(std::stoi(params[0]), std::stoi(params[1]), std::stoi(params[2]));
+		} else if (command == "setInstrumentPlay") {	// replaces instrument param[1]'s phrases in active group to whatever is in group param[0]
+			lt.setInstrumentPlay(std::stoi(params[0]), std::stoi(params[1]));
 		} else {
 			std::cout << "Wrong input" << std::endl;
 		}

@@ -35,6 +35,9 @@ namespace lotide {
 		unsigned getLength() { return mCurrentLength; }
 		Group& makeNewGroup(std::string groupName);
 		std::string getName() { return mName; }
+		void addGroup(Group&& g) {
+			groups.push_back(g);
+		}
 		void setGroup(std::string name);
 		void setGroup(Group& g);
 		void setNextGroup(std::string name);
