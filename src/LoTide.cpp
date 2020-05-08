@@ -116,23 +116,41 @@ namespace lotide {
 		return sequencer.getSong();
 	}
 
-	void LoTide::setInstrumentPlay(int g2, int instrId) {
+	void LoTide::setInstrumentPlay(std::string g2, int instrId) {
 		Song& song = sequencer.getSong();
 
-		Group& newGroup = Group(song.getActiveGroup());
-		newGroup.setName("generated");
-		
-		Group& group2 = song.getGroup(g2);
+		if (song.getActiveGroup().getName() == "generated") {
+			song.getActiveGroup().setPhrases(instrId, song.getGroup(g2).getPhrases(instrId));
+		} 
+		else {
+			Group& newGroup = Group(song.getActiveGroup());
+			newGroup.setName("generated");
 
-		newGroup.setPhrases(instrId, group2.getPhrases(instrId));
+			Group& group2 = song.getGroup(g2);
 
-		song.addGroup(std::move(newGroup));
-		setGroup("generated");
+			newGroup.setPhrases(instrId, group2.getPhrases(instrId));
+
+			song.addGroup(std::move(newGroup));
+			setGroup("generated");
+		}
 	}
 
 	void LoTide::removeInstrument(int instrumentId) {
 		Song& song = sequencer.getSong();
 
-		song.getActiveGroup().removePhrases(instrumentId);
+		if (song.getActiveGroup().getName() == "generated") {
+			song.getActiveGroup().removePhrases(instrumentId);
+		}
+		else {
+			Group& newGroup = Group(song.getActiveGroup());
+			newGroup.setName("generated");
+
+			newGroup.removePhrases(instrumentId);
+
+			song.addGroup(std::move(newGroup));
+			setGroup("generated");
+		}
+
+		
 	}
 }

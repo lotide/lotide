@@ -41,7 +41,7 @@ namespace lotide {
 		void setTempo(int bpm) { 
 			sequencer.setTempo(bpm);
 		}
-		void setInstrumentPlay(int group2, int instrumentId);
+		void setInstrumentPlay(std::string group2, int instrumentId);
 		void removeInstrument(int instrumentId);
 	private:
 		tsal::Mixer masterMixer;

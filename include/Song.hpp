@@ -36,7 +36,20 @@ namespace lotide {
 		Group& makeNewGroup(std::string groupName);
 		std::string getName() { return mName; }
 		void addGroup(Group&& g) {
-			groups.push_back(g);
+			if (g.getName() == "generated") {
+				int found = -1;
+				for (int i = 0; i < groups.size(); i++) {
+					if (groups[i].getName() == "generated") {
+						groups[i] = g;
+						found = i;
+						break;
+					}
+				}
+
+				if (found == -1) {
+					groups.push_back(g);
+				}
+			}
 		}
 		void setGroup(std::string name);
 		void setGroup(Group& g);
