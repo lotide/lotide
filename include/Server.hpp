@@ -49,15 +49,15 @@ namespace lotide {
 		unsigned int new_socket;
 		unsigned int valread;
 		unsigned int server_fd;
-	    SOCKET ClientSocket = INVALID_SOCKET;
-	    SOCKET ListenSocket = INVALID_SOCKET;
+		unsigned client_socket;
+		unsigned listen_socket;
 		struct sockaddr_in address;
 		int opt = 1;
 		int addrlen = sizeof(address);
 		nlohmann::json j;
 		#ifdef _WIN32
 			WSADATA wsaData;
-	    	int iResult;
+			int iResult;
 		#endif
 		LoTide lt;
 		std::string songState;
