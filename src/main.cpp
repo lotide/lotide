@@ -368,6 +368,9 @@ int main(int argc, char *argv[])
 	int sunflowerBassId = sunflowerBass.getId();
 	sunflowerBass.setLength(514);
 
+	g2.addPhrase(synth1Id, sunflowerId);
+	g2.addPhrase(synth2Id, sunflowerBassId);
+
 	Group& g3 = song.makeNewGroup("part3");
 	Phrase& kkRestMeasure = song.addPhrase("KKRestMeasure");
 	int kkRestMeasureId = kkRestMeasure.getId();
@@ -602,9 +605,6 @@ int main(int argc, char *argv[])
 	kkHouseMelody3.addNote(Note(tsal::D5, 44, 52, 4));
 	kkHouseMelody3.addNote(Note(tsal::C5, 44, 56, 4));
 	kkHouseMelody3.addNote(Note(tsal::A4, 44, 60, 4));
-
-	g2.addPhrase(synth1Id, sunflowerId);
-	g2.addPhrase(synth2Id, sunflowerBassId);
 
 	g3.addPhrase(synth1Id, kkHouseIntroId);
 	g3.addPhrase(synth2Id, kkRestMeasureId);
