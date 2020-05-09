@@ -364,9 +364,42 @@ int main(int argc, char *argv[])
 	sunflower.addNote(Note(tsal::D5, 100, 480, 6));
 	sunflower.addNote(Note(tsal::E5, 100, 486, 28));
 
+
 	Phrase& sunflowerBass = song.addPhrase("SunflowerBass");
 	int sunflowerBassId = sunflowerBass.getId();
 	sunflowerBass.setLength(514);
+	// measure 1
+	sunflowerBass.addNote(Note(tsal::C4, 100, 0, 32));
+	// measure 2
+	sunflowerBass.addNote(Note(tsal::As3, 100, 32, 32));
+	// measure 3
+	sunflowerBass.addNote(Note(tsal::A3, 100, 64, 32));
+	// measure 4
+	sunflowerBass.addNote(Note(tsal::Gs3, 100, 96, 32));
+	// measure 5
+	sunflowerBass.addNote(Note(tsal::A3, 100, 128, 32));
+	// measure 6
+	sunflowerBass.addNote(Note(tsal::Gs3, 100, 160, 32));
+	// measure 7
+	sunflowerBass.addNote(Note(tsal::G3, 100, 192, 32));
+	// measure 8
+	sunflowerBass.addNote(Note(tsal::Fs4, 100, 224, 32));
+	// measure 9
+	sunflowerBass.addNote(Note(tsal::D5, 100, 256, 32));
+	// measure 10
+	sunflowerBass.addNote(Note(tsal::G5, 100, 288, 16));
+	sunflowerBass.addNote(Note(tsal::F5, 100, 304, 16));
+	// measure 11
+	sunflowerBass.addNote(Note(tsal::E5, 100, 320, 32));
+	// measure 12
+	sunflowerBass.addNote(Note(tsal::A4, 100, 352, 32));
+	// measure 13
+	sunflowerBass.addNote(Note(tsal::D5, 100, 384, 32));
+	// measure 14
+	sunflowerBass.addNote(Note(tsal::Cs4, 100, 416, 32));
+	// measure 15
+	sunflowerBass.addNote(Note(tsal::C4, 100, 448, 32));
+	sunflowerBass.addNote(Note(tsal::C4, 100, 480, 32));
 
 	g2.addPhrase(synth1Id, sunflowerId);
 	g2.addPhrase(synth2Id, sunflowerBassId);
@@ -632,7 +665,7 @@ int main(int argc, char *argv[])
 
 	LoTide lt2;
 	lt2.load("Song1", "temp.lot");
-	lt2.setGroup("part3");
+	lt2.setGroup("part2");
 
 	std::cout << "Press <enter> to begin:" << std::endl;
 	std::cin.get(input);
