@@ -99,37 +99,39 @@ namespace lotide {
 		} else if (command == "setAttack") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::ENV_ATTACK, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::ENV_ATTACK, std::stod(params[0]));
 		} else if (command == "setSustain") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::ENV_SUSTAIN, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::ENV_SUSTAIN, std::stod(params[0]));
 		} else if (command == "setDecay") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::ENV_DECAY, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::ENV_DECAY, std::stod(params[0]));
 		} else if (command == "setRelease") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::ENV_RELEASE, std::stoul(params[0]));
-		} else if (command == "setTempo") {
-			// lt.setTempo(params[0]);
+			synth.getSynth().setParameter(tsal::PolySynth::ENV_RELEASE, std::stod(params[0]));
+		} else if (command == "setVolume") {
+			Song& song = lt.getActiveSong();
+			LTSynth& synth = song.getSynth(activeSynthId);
+			synth.getSynth().setParameter(tsal::PolySynth::VOLUME, std::stod(params[0]));
 		} else if (command == "setModulationMode") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::MODULATION_MODE, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::MODULATION_MODE, std::stod(params[0]));
 		} else if (command == "setOSC1Mode") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::OSC1_MODE, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::OSC1_MODE, std::stod(params[0]));
 		} else if (command == "setOSC2Mode") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::OSC2_MODE, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::OSC2_MODE, std::stod(params[0]));
 		} else if (command == "setOSC2Offset") {
 			Song& song = lt.getActiveSong();
 			LTSynth& synth = song.getSynth(activeSynthId);
-			synth.getSynth().setParameter(tsal::PolySynth::OSC2_OFFSET, std::stoul(params[0]));
+			synth.getSynth().setParameter(tsal::PolySynth::OSC2_OFFSET, std::stod(params[0]));
 		} else if (command == "close") {
 			std::cout << "Successfully Closed" << std::endl;
 			exit(EXIT_SUCCESS);
