@@ -181,6 +181,8 @@ namespace lotide {
 		} else if (command == "removeInstrument") {
 			lt.removeInstrument(std::stoi(params[0]));
 			activeInstanceGroup = "generated";
+		} else if (command == "setTempo") {
+			lt.setTempo(std::stoi(params[0]));
 		} else {
 			std::cout << "Wrong input" << std::endl;
 		}
